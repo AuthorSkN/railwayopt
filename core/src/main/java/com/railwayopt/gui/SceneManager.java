@@ -36,21 +36,23 @@ public class SceneManager {
 
     private static Stage stage;
 
-    private static void installSceneByParameters(String path, String title, Size size) throws SystemException {
+    private static Controller installSceneByParameters(String path, String title, Size size) throws SystemException {
+        Controller sceneController = null;
         try
         {
             FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(path));
             Parent root = fxmlLoader.load();
+            sceneController = fxmlLoader.getController();
             Scene scene = new Scene(root, size.width, size.height);
             scene.getStylesheets().add(SceneManager.class.getResource(PATH_BASE_STYLE).toExternalForm());
             stage.setTitle(title);
             stage.setScene(scene);
             stage.show();
-
         } catch (IllegalStateException | IOException  exc) {
             exc.printStackTrace();
             throw new SystemException();
         }
+        return sceneController;
     }
 
     /**
@@ -75,8 +77,8 @@ public class SceneManager {
     }
 
     public static void installProjectsScene() throws SystemException{
-        installSceneByParameters(PATH_PROJECTS_SCENE, AS_PTI_SCENE_TITLE, AS_PTI_SCENE_SIZE);
-        /*stage.getScene().getStylesheets().add(SceneManager.class.getResource("custom/customcss.css").toExternalForm());*/
+        ProjectsController controller = (ProjectsController) installSceneByParameters(PATH_PROJECTS_SCENE, AS_PTI_SCENE_TITLE, AS_PTI_SCENE_SIZE);
+        controller.initializeScene();
     }
 
     /**

@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.Separator?>
+<?import javafx.scene.layout.HBox?>
+
+<fx:root alignment="TOP_CENTER" prefWidth="600.0" style="-fx-background-color: #95e695; -fx-border-insets: 5px; -fx-padding: 5px; -fx-background-insets: 5px;" type="javafx.scene.layout.HBox" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+   <children>
+      <Label fx:id="name" prefWidth="100.0" style="-fx-padding: 5px;" text="Название" />
+      <Separator orientation="VERTICAL" />
+      <Label fx:id="date" prefWidth="100.0" style="-fx-padding: 5px;" text="Дата" />
+      <Separator orientation="VERTICAL" />
+      <Label fx:id="stationCount" prefWidth="50.0" style="-fx-padding: 5px;" text="Кол станций" />
+      <Separator orientation="VERTICAL" />
+      <Label fx:id="factoryCount" prefWidth="50.0" style="-fx-padding: 5px;" text="Кол. производств" />
+      <Separator orientation="VERTICAL" />
+      <Label fx:id="author" prefWidth="100.0" style="-fx-padding: 5px;" text="Создатель" />
+   </children>
+   <opaqueInsets>
+      <Insets />
+   </opaqueInsets>
+</fx:root>
