@@ -1,42 +1,77 @@
 package com.railwayopt.gui;
 
+import com.railwayopt.entity.Project;
+import com.railwayopt.gui.custom.ProjectShared;
 import com.railwayopt.gui.custom.ProjectString;
+import javafx.event.EventHandler;
 import javafx.fxml.FXML;
+import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
-import javafx.scene.control.Menu;
-import javafx.scene.layout.HBox;
+import javafx.scene.input.MouseEvent;
+import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
+import javafx.stage.Modality;
+import javafx.stage.Stage;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class ProjectsController implements Controller{
 
     @FXML
-    private Label about;
-    @FXML
-    private Button buttonAddString;
+    private Label emptyProject;
+
+    private ProjectString selectedProjectString = null;
 
     @FXML
     private VBox projectsList;
-
-
     @FXML
-    public void onClick(){
-        System.out.println("EEeeeeee");
-    }
-
+    private AnchorPane projectSharedPanel;
     @FXML
-    public void onCursor(){
-        System.out.println("Super");
-    }
+    private Button buttonAddProject;
+    private Map<Integer, Project> projects;
 
-    @FXML
-    public void addString(){
-        ProjectString string = new ProjectString(0, "Новое имя", "12-34-1234", 2, 10, "Складнев");
-        projectsList.getChildren().add(string);
-    }
+
 
     @Override
     public void initializeScene() {
+        projects = new HashMap<>();
+        for(int i=0; i < 10; i++){
+            ProjectString string = new ProjectString(i, "Новое имя "+i, "12-34-1234", 2, 10, "Складнев");
+            string.setOnMouseClicked(new EventHandler<MouseEvent>() {
+                @Override
+                public void handle(MouseEvent event) {
+                    ProjectString projectString = (ProjectString) event.getSource();
+                    if(selectedProjectString != null){
+                        selectedProjectString.getStyleClass().remove("list-string-project-selected");
+                        selectedProjectString.getStyleClass().add("list-string-project");
+                    }
+                    projectString.getStyleClass().remove("list-string-project");
+                    projectString.getStyleClass().add("list-string-project-selected");
+                    selectedProjectString = projectString;
+                    resetProjectForShared();
+                }
+            });
+            projectsList.getChildren().add(string);
+            projects.put(i, new Project(i, "Новое имя "+i, "Некоторый проект "+i+", который содержит станции и производства."));
+        }
 
+    }
+
+    private void resetProjectForShared() {
+        projectSharedPanel.getChildren().remove(0);
+        Project project = projects.get(selectedProjectString.getProjectId());
+        ProjectShared shared = new ProjectShared(project);
+        projectSharedPanel.getChildren().add(shared);
+        AnchorPane.setRightAnchor(shared, 0.0);
+        AnchorPane.setLeftAnchor(shared, 0.0);
+        AnchorPane.setTopAnchor(shared, 0.0);
+        AnchorPane.setBottomAnchor(shared, 0.0);
+    }
+
+    public void addProject(){
+        SceneManager.showAddProjectDialog();
+        System.out.print("Super uper");
     }
 }

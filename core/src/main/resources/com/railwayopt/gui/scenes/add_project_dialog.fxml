@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.TextArea?>
+<?import javafx.scene.control.TextField?>
+<?import javafx.scene.layout.AnchorPane?>
+
+
+<AnchorPane prefHeight="400.0" prefWidth="571.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.railwayopt.gui.addProjectDialogController">
+   <children>
+      <Label layoutX="53.0" layoutY="25.0" text="Ввод информации о проекте" />
+      <TextField layoutX="46.0" layoutY="59.0" />
+      <TextArea layoutX="46.0" layoutY="100.0" prefHeight="200.0" prefWidth="200.0" />
+      <Button layoutX="55.0" layoutY="326.0" mnemonicParsing="false" text="Отмена" />
+      <Button layoutX="120.0" layoutY="326.0" mnemonicParsing="false" text="Выбор данных" />
+   </children>
+</AnchorPane>

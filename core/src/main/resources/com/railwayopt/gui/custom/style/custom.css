@@ -1,0 +1,83 @@
+.list-string{
+    -fx-border-insets: 5px;
+    -fx-padding: 5px;
+    -fx-background-insets: 5px;
+}
+
+.list-string-project{
+    -fx-background-color: #95e695;
+}
+
+.list-string-project:hover{
+    -fx-background-color: rgba(74, 141, 74, 0.82);
+}
+
+.list-string-project-selected{
+    -fx-background-color: #8bb4e6;
+}
+
+
+/**********************************************************************************/
+/*Author.SkN UI */
+/**********************************************************************************/
+
+.tab-pane .tab-header-area .tab-header-background {
+    -fx-opacity: 0;
+}
+
+.tab-pane
+{
+    -fx-tab-min-width:90px;
+
+}
+
+.tab{
+    -fx-background-insets: 0 1 0 1,0,0;
+    -fx-padding: 5 11 5 11;
+    -fx-border-style: null;
+    -fx-background-radius: 0;
+
+    -fx-background-color: #cccccc;
+
+    -fx-font-family: "Segoe UI", Helvetica, Arial, sans-serif;
+    -fx-text-fill: black;
+    -fx-focus-color: transparent;
+}
+.tab-pane .tab
+{
+    -fx-background-color: #e6e6e6;
+}
+
+.tab-pane .tab:selected
+{
+    -fx-background-color: #8bb4e6;
+}
+
+.tab .tab-label {
+    -fx-alignment: CENTER;
+    -fx-font-size: 14pt;
+    -fx-font-weight: bold;
+}
+
+.tab:selected .tab-label {
+    -fx-alignment: CENTER;
+    -fx-border-radius: 0;
+}
+
+.text-area{
+    -fx-border-style: null;
+    -fx-background-radius: 0;
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-faint-focus-color: -fx-control-inner-background ;
+    -fx-background-color: #e6e6e6;
+}
+
+.table-view{
+    -fx-border-style: null;
+    -fx-background-radius: 0;
+    -fx-focus-color: -fx-control-inner-background ;
+    -fx-faint-focus-color: -fx-control-inner-background ;
+    -fx-background-color: #eaeaea;
+}
+
+

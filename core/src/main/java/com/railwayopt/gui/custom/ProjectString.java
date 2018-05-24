@@ -1,7 +1,10 @@
 package com.railwayopt.gui.custom;
 
+import com.railwayopt.gui.SceneManager;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.scene.Parent;
+import javafx.scene.Scene;
 import javafx.scene.control.Label;
 import javafx.scene.layout.HBox;
 
@@ -22,8 +25,11 @@ public class ProjectString extends HBox{
     @FXML
     private Label author;
 
+    private int id;
+
     public ProjectString(int id, String name, String date, int stationCount, int factoryCount, String authorName){
         super();
+        this.id= id;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_COMPONENT_NAME));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -38,5 +44,9 @@ public class ProjectString extends HBox{
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public int getProjectId() {
+        return id;
     }
 }
