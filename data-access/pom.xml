@@ -9,16 +9,7 @@
     </parent>
     <modelVersion>4.0.0</modelVersion>
 
-    <artifactId>core</artifactId>
-    <packaging>jar</packaging>
-
-    <dependencies>
-        <dependency>
-            <groupId>railway</groupId>
-            <artifactId>mapview</artifactId>
-            <version>1.0.0.0</version>
-        </dependency>
-    </dependencies>
+    <artifactId>data-access</artifactId>
 
 
 </project>

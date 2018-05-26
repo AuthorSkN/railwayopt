@@ -1,5 +1,6 @@
 package com.railwayopt.entity;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
@@ -8,12 +9,13 @@ public class Project {
     private int id;
     private String name;
     private String description;
-    private Set<Station> stations;
-    private Set<Factory> factories;
-    private Set<Solution> solutions;
+    private String date;
+    private String author;
+    private Set<Station> stations = new HashSet<>();
+    private Set<Factory> factories = new HashSet<>();
+    private Set<Solution> solutions = new HashSet<>();
 
-    public Project() {
-    }
+    public Project() {}
 
     public Project(int id, String name, String description) {
         this.id = id;
@@ -63,5 +65,21 @@ public class Project {
 
     public void setSolutions(Set<Solution> solutions) {
         this.solutions = solutions;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getAuthor() {
+        return author;
+    }
+
+    public void setAuthor(String author) {
+        this.author = author;
     }
 }

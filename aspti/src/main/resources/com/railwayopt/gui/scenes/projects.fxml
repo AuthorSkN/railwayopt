@@ -29,7 +29,7 @@
                <children>
                   <ScrollPane prefHeight="288.0" prefWidth="218.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <content>
-                        <VBox fx:id="projectsList" prefWidth="600.0">
+                        <VBox fx:id="vboxProjectsList" prefWidth="600.0">
                            <children>
                               <HBox alignment="TOP_CENTER" prefWidth="600.0" styleClass="list-string">
                                  <children>

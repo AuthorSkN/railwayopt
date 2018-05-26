@@ -1,20 +1,19 @@
 package com.railwayopt.gui;
 
+import com.railwayopt.DB;
 import com.railwayopt.entity.Project;
 import com.railwayopt.gui.custom.ProjectShared;
 import com.railwayopt.gui.custom.ProjectString;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
-import javafx.scene.Scene;
 import javafx.scene.control.Button;
 import javafx.scene.control.Label;
 import javafx.scene.input.MouseEvent;
 import javafx.scene.layout.AnchorPane;
 import javafx.scene.layout.VBox;
-import javafx.stage.Modality;
-import javafx.stage.Stage;
 
 import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 public class ProjectsController implements Controller{
@@ -25,21 +24,26 @@ public class ProjectsController implements Controller{
     private ProjectString selectedProjectString = null;
 
     @FXML
-    private VBox projectsList;
+    private VBox vboxProjectsList;
     @FXML
     private AnchorPane projectSharedPanel;
     @FXML
     private Button buttonAddProject;
+
     private Map<Integer, Project> projects;
 
 
 
     @Override
     public void initializeScene() {
+        List<Project> projectsFromDB = DB.getAllProjects();
         projects = new HashMap<>();
-        for(int i=0; i < 10; i++){
-            ProjectString string = new ProjectString(i, "Новое имя "+i, "12-34-1234", 2, 10, "Складнев");
-            string.setOnMouseClicked(new EventHandler<MouseEvent>() {
+        vboxProjectsList.getChildren().remove(0, vboxProjectsList.getChildren().size());
+        for(Project project: projectsFromDB){
+            projects.put(project.getId(), project);
+            ProjectString projectString = new ProjectString(project.getId(),project.getName(), project.getDate(),
+                        project.getStations().size(), project.getFactories().size(), project.getAuthor());
+            projectString.setOnMouseClicked(new EventHandler<MouseEvent>() {
                 @Override
                 public void handle(MouseEvent event) {
                     ProjectString projectString = (ProjectString) event.getSource();
@@ -53,8 +57,7 @@ public class ProjectsController implements Controller{
                     resetProjectForShared();
                 }
             });
-            projectsList.getChildren().add(string);
-            projects.put(i, new Project(i, "Новое имя "+i, "Некоторый проект "+i+", который содержит станции и производства."));
+            vboxProjectsList.getChildren().add(projectString);
         }
 
     }
@@ -72,6 +75,8 @@ public class ProjectsController implements Controller{
 
     public void addProject(){
         SceneManager.showAddProjectDialog();
-        System.out.print("Super uper");
+        Project newProject = AddProjectDialogController.getNewProject();
+        DB.addProject(newProject);
+        initializeScene();
     }
 }

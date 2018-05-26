@@ -1,5 +1,6 @@
 package com.railwayopt.gui;
 
+import com.railwayopt.DB;
 import com.railwayopt.exceptions.SystemException;
 import javafx.application.*;
 import javafx.stage.Stage;
@@ -12,6 +13,7 @@ public class App extends Application{
 
     @Override
     public void start(Stage primaryStage) throws Exception {
+        DB.initializer();
         SceneManager.init(primaryStage);
         try {
             SceneManager.installProjectsScene();

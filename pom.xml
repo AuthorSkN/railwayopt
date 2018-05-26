@@ -11,7 +11,8 @@
 
     <modules>
         <module>mapview</module>
-        <module>core</module>
+        <module>aspti</module>
+        <module>data-access</module>
     </modules>
 
     <build>
