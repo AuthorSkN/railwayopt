@@ -17,6 +17,7 @@ public class FactorySelected extends Factory {
         setLatitude(factory.getLatitude());
         setLongitude(factory.getLongitude());
         setWeight(factory.getWeight());
+        setRegion(factory.getRegion());
     }
 
     public boolean isSelected() {

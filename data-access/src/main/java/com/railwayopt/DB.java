@@ -10,6 +10,7 @@ public class DB {
 
     private static Map<Integer, Project> projects = new HashMap<>();
     private static Map<Integer, Factory> factories = new HashMap<>();
+    private static List<String> regions = new ArrayList<>();
 
     public static void initializer(){
         //проекты
@@ -26,8 +27,15 @@ public class DB {
             longitude += i;
             latitude -= i;
             Factory factory = new Factory(i, "Станция из БД "+i, latitude, longitude, 1.0/(i+1));
+            if(i % 2 == 0){
+                factory.setRegion("самарская область");
+            }else{
+                factory.setRegion("крым");
+            }
             factories.put(factory.getId(), factory);
         }
+        //Регионы
+        regions = Arrays.asList("Самарская область", "Ульяновская область", "Кировская область");
     }
 
     public static void addProject(Project project){
@@ -40,5 +48,9 @@ public class DB {
 
     public static List<Factory> getAllFactories(){
         return new ArrayList<>(factories.values());
+    }
+
+    public static List<String> getAllRegions(){
+        return regions;
     }
 }

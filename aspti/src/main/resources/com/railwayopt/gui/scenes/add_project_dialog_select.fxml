@@ -16,8 +16,8 @@
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
                         <Button fx:id="buttonLoadFromDB" layoutX="312.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadFromDB" text="Загрузить из системы" AnchorPane.rightAnchor="153.0" AnchorPane.topAnchor="14.0" />
-                        <Button layoutX="534.0" layoutY="14.0" mnemonicParsing="false" text="Загрузить из файла" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
-                        <CheckBox mnemonicParsing="false" text="Выбрать все" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0" />
+                        <Button fx:id="buttonLoadFromFile" layoutX="534.0" layoutY="14.0" mnemonicParsing="false" onAction="#loadFromFile" text="Загрузить из файла" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                        <CheckBox fx:id="checkSelectAll" mnemonicParsing="false" text="Выбрать все" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0" />
                         <VBox fx:id="vboxFactories" layoutX="14.0" layoutY="48.0" prefWidth="548.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
                      </children>
                   </AnchorPane>

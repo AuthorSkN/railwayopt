@@ -1,21 +1,21 @@
 package com.railwayopt.gui.custom.selectdata;
 
-import com.railwayopt.entity.Factory;
-import com.sun.prism.impl.FactoryResetException;
-import javafx.beans.value.ChangeListener;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
+import javafx.geometry.Pos;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.CheckBoxTableCell;
 import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.TilePane;
-import javafx.util.Callback;
 
 
 import java.io.IOException;
+import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 public class RegionGroupForSelectFactory extends TitledPane {
 
@@ -34,11 +34,15 @@ public class RegionGroupForSelectFactory extends TitledPane {
     private TableColumn<FactorySelected, Double> tableColumnLongitude;
     @FXML
     private TableColumn<FactorySelected, Double> tableColumnWeight;
+    @FXML
+    private CheckBox checkAllSelect;
 
     private List<FactorySelected> factories;
 
+    private List<BooleanProperty> cells = new ArrayList<>(10);
 
-    public RegionGroupForSelectFactory(List<FactorySelected> factories){
+
+    public RegionGroupForSelectFactory(String name, List<FactorySelected> factories){
         super();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_COMPONENT_NAME));
         fxmlLoader.setRoot(this);
@@ -46,66 +50,57 @@ public class RegionGroupForSelectFactory extends TitledPane {
         fxmlLoader.setClassLoader(getClass().getClassLoader());
         try {
             fxmlLoader.load();
-            Callback<TableColumn<FactorySelected, Boolean>, TableCell<FactorySelected, Boolean>> booleanCellFactory =
-                    new Callback<TableColumn<FactorySelected, Boolean>, TableCell<FactorySelected, Boolean>>() {
 
-                        @Override
-                        public TableCell<FactorySelected, Boolean> call(TableColumn<FactorySelected, Boolean> p) {
-                            return new BooleanCell();
-                        }
-                    };
+            this.setText(name);
 
-            tableColumnSelect.setCellValueFactory(new PropertyValueFactory<FactorySelected, Boolean>("selected"));
-            tableColumnSelect.setCellFactory(booleanCellFactory);
-            tableColumnName.setCellValueFactory(new PropertyValueFactory<FactorySelected, String>("name"));
-            tableColumnLatitude.setCellValueFactory(new PropertyValueFactory<FactorySelected, Double>("latitude"));
-            tableColumnLongitude.setCellValueFactory(new PropertyValueFactory<FactorySelected, Double>("longitude"));
-            tableColumnWeight.setCellValueFactory(new PropertyValueFactory<FactorySelected, Double>("weight"));
+            checkAllSelect.selectedProperty().addListener(this::selectAllEvent);
+
+            table.setEditable(true);
+            tableColumnSelect.setCellValueFactory(param -> {
+                FactorySelected factorySelected = param.getValue();
+                SimpleBooleanProperty booleanProp = new SimpleBooleanProperty(factorySelected.isSelected());
+                booleanProp.addListener((observable, oldValue, newValue) -> factorySelected.setSelected(newValue));
+                cells.add(booleanProp);
+                return booleanProp;
+            });
+            tableColumnSelect.setCellFactory(p -> {
+                CheckBoxTableCell<FactorySelected, Boolean> cell = new CheckBoxTableCell<>();
+                cell.setAlignment(Pos.CENTER);
+                return cell;
+            });
+            tableColumnSelect.setEditable(true);
+            tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
+            tableColumnLatitude.setCellValueFactory(new PropertyValueFactory<>("latitude"));
+            tableColumnLongitude.setCellValueFactory(new PropertyValueFactory<>("longitude"));
+            tableColumnWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
             table.setItems(FXCollections.observableArrayList(factories));
         } catch (IOException exception) {
             exception.printStackTrace();
         }
     }
 
-    class BooleanCell extends TableCell<FactorySelected, Boolean> {
-        private CheckBox checkBox;
-        public BooleanCell() {
-            checkBox = new CheckBox();
-            //checkBox.setDisable(true);
-            checkBox.selectedProperty().addListener(new ChangeListener<Boolean>() {
-                public void changed(ObservableValue<? extends Boolean> observable, Boolean oldValue, Boolean newValue) {
-                    if(isEditing())
-                        commitEdit(newValue == null ? false : newValue);
-                }
-            });
-            this.setGraphic(checkBox);
-            this.setContentDisplay(ContentDisplay.GRAPHIC_ONLY);
-            this.setEditable(true);
-        }
-        @Override
-        public void startEdit() {
-            super.startEdit();
-            if (isEmpty()) {
-                return;
-            }
-            checkBox.setDisable(false);
-            checkBox.requestFocus();
-        }
-        @Override
-        public void cancelEdit() {
-            super.cancelEdit();
-            checkBox.setDisable(true);
-        }
-        public void commitEdit(Boolean value) {
-            super.commitEdit(value);
-            checkBox.setDisable(true);
-        }
-        @Override
-        public void updateItem(Boolean item, boolean empty) {
-            super.updateItem(item, empty);
-            if (!isEmpty()) {
-                checkBox.setSelected(item);
-            }
+    public void selectAll(boolean flag){
+        if(flag){
+            checkAllSelect.setSelected(true);
+            selectAllEvent(null, false, true);
+        }else{
+            checkAllSelect.setSelected(false);
+            selectAllEvent(null, true, false);
         }
     }
+
+    private void selectAllEvent(ObservableValue observable, Boolean oldValue, Boolean newValue){
+        //флаг установлен
+        if (newValue && !oldValue) {
+            cells.forEach(cell-> cell.set(true));
+        }else if (!newValue && oldValue){
+            cells.forEach(cell-> cell.set(false));
+        }
+    }
+
+    public List<FactorySelected> getSelectedFactories(){
+        return table.getItems().stream().filter(FactorySelected::isSelected).collect(Collectors.toList());
+    }
+
+
 }

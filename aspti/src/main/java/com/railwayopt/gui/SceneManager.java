@@ -7,8 +7,11 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
 import javafx.scene.Scene;
 import javafx.scene.control.Alert;
+import javafx.stage.FileChooser;
 import javafx.stage.Modality;
 import javafx.stage.Stage;
+
+import java.io.File;
 import java.io.IOException;
 
 /**
@@ -133,6 +136,15 @@ public class SceneManager {
         errorDialog.setHeaderText(headMessage);
         errorDialog.setContentText(description);
         errorDialog.showAndWait();
+    }
+
+    public static File showOpenFileDialog(String title, String description, String extensions){
+        FileChooser fileChooser = new FileChooser();//Класс работы с диалогом выборки и сохранения
+        fileChooser.setTitle(title);//Заголовок диалога
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter(description, extensions);//Расширение
+        fileChooser.getExtensionFilters().add(extFilter);
+        return fileChooser.showOpenDialog(addProjectDialog);
     }
 
 
