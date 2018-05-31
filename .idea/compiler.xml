@@ -7,19 +7,9 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="aspti" />
-        <module name="core" />
         <module name="data-access" />
-        <module name="dbaccess" />
         <module name="mapview" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel target="1.8">
-      <module name="aspti" target="1.8" />
-      <module name="core" target="1.7" />
-      <module name="data-access" target="1.8" />
-      <module name="dbaccess" target="1.7" />
-      <module name="mapview" target="1.8" />
-      <module name="railwayoptimization" target="1.8" />
-    </bytecodeTargetLevel>
   </component>
 </project>

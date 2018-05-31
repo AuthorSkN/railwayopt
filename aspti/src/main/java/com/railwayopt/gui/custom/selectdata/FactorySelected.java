@@ -5,7 +5,7 @@ import com.railwayopt.entity.Factory;
 import java.util.ArrayList;
 import java.util.List;
 
-public class FactorySelected extends Factory {
+public class FactorySelected extends Factory implements Selectable{
 
     private boolean selected = false;
 
@@ -20,10 +20,12 @@ public class FactorySelected extends Factory {
         setRegion(factory.getRegion());
     }
 
+    @Override
     public boolean isSelected() {
         return selected;
     }
 
+    @Override
     public void setSelected(boolean selected) {
         this.selected = selected;
     }

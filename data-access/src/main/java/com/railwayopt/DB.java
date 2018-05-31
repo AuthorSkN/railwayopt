@@ -1,7 +1,6 @@
 package com.railwayopt;
 
-import com.railwayopt.entity.Factory;
-import com.railwayopt.entity.Project;
+import com.railwayopt.entity.*;
 import com.sun.prism.impl.FactoryResetException;
 
 import java.util.*;
@@ -10,6 +9,7 @@ public class DB {
 
     private static Map<Integer, Project> projects = new HashMap<>();
     private static Map<Integer, Factory> factories = new HashMap<>();
+    private static Map<Integer, Station> stations = new HashMap<>();
     private static List<String> regions = new ArrayList<>();
 
     public static void initializer(){
@@ -53,4 +53,6 @@ public class DB {
     public static List<String> getAllRegions(){
         return regions;
     }
+
+    public static List<Station> getAllStations(){ return new ArrayList<>(stations.values()); }
 }

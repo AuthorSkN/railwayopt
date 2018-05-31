@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import java.util.*?>
+<?import javafx.scene.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<fx:root prefWidth="600.0" type="TitledPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+    <content>
+        <VBox prefHeight="200.0" prefWidth="100.0">
+            <children>
+                <CheckBox fx:id="checkAllSelect" mnemonicParsing="false" text="Выбрать всё" />
+                <TableView fx:id="table">
+                    <columns>
+                        <TableColumn fx:id="tableColumnSelect" prefWidth="35.0" />
+                        <TableColumn fx:id="tableColumnName" prefWidth="115.0" text="Название" />
+                        <TableColumn fx:id="tableColumnLatitude" prefWidth="75.0" text="Широта" />
+                        <TableColumn fx:id="tableColumnLongitude" prefWidth="75.0" text="Долгота" />
+                    </columns>
+                </TableView>
+            </children>
+        </VBox>
+    </content>
+</fx:root>

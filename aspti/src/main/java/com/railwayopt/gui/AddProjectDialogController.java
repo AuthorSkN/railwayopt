@@ -2,10 +2,8 @@ package com.railwayopt.gui;
 
 import com.railwayopt.DB;
 import com.railwayopt.dataimport.XlsLoader;
-import com.railwayopt.entity.Factory;
-import com.railwayopt.entity.Project;
-import com.railwayopt.gui.custom.selectdata.FactorySelected;
-import com.railwayopt.gui.custom.selectdata.RegionGroupForSelectFactory;
+import com.railwayopt.entity.*;
+import com.railwayopt.gui.custom.selectdata.*;
 import com.railwayopt.model.RegionManager;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
@@ -14,7 +12,6 @@ import javafx.scene.control.CheckBox;
 import javafx.scene.control.TextArea;
 import javafx.scene.control.TextField;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
@@ -34,15 +31,22 @@ public class AddProjectDialogController implements Controller {
     @FXML
     private VBox vboxFactories;
     @FXML
-    private CheckBox checkSelectAll;
+    private VBox vboxStations;
+    @FXML
+    private CheckBox checkSelectAllFactory;
+    @FXML
+    private CheckBox checkSelectAllStation;
 
     private List<Factory> factoriesFromDB;
+    private List<Station> stationsFromDB;
     private RegionManager regionManager = new RegionManager();
 
     @Override
     public void initializeScene() {
         factoriesFromDB = DB.getAllFactories();
-        checkSelectAll.selectedProperty().addListener(this::selectAll);
+        stationsFromDB = DB.getAllStations();
+        checkSelectAllFactory.selectedProperty().addListener(this::selectAllFactory);
+        checkSelectAllStation.selectedProperty().addListener(this::selectAllStation);
     }
 
     @FXML
@@ -56,7 +60,7 @@ public class AddProjectDialogController implements Controller {
         return newProject;
     }
 
-    public void selectAll(ObservableValue observableValue, Boolean oldValue, Boolean newValue){
+    public void selectAllFactory(ObservableValue observableValue, Boolean oldValue, Boolean newValue){
         if (newValue && !oldValue) {
             for(Node group: vboxFactories.getChildren()){
                 ((RegionGroupForSelectFactory)group).selectAll(true);
@@ -69,8 +73,21 @@ public class AddProjectDialogController implements Controller {
 
     }
 
+    public void selectAllStation(ObservableValue observableValue, Boolean oldValue, Boolean newValue){
+        if (newValue && !oldValue) {
+            for(Node group: vboxStations.getChildren()){
+                ((RegionGroupForSelectStation)group).selectAll(true);
+            }
+        }else if (!newValue && oldValue){
+            for(Node group: vboxStations.getChildren()){
+                ((RegionGroupForSelectStation)group).selectAll(false);
+            }
+        }
+
+    }
+
     @FXML
-    public void loadFromDB(){
+    public void loadFactoryFromDB(){
         Map<String, List<FactorySelected>> regionGroups = regionManager.groupingByRegion(FactorySelected.convertToSelected(factoriesFromDB));
         Set<String> foundRegions = regionGroups.keySet();
             for(String region: foundRegions){
@@ -79,7 +96,7 @@ public class AddProjectDialogController implements Controller {
     }
 
     @FXML
-    public void loadFromFile(){
+    public void loadFactoryFromFile(){
         File file = SceneManager.showOpenFileDialog("Загрузить файл", "Excel файл", "*");
         XlsLoader loader = null;
         try {
@@ -92,6 +109,15 @@ public class AddProjectDialogController implements Controller {
             }
         } catch (IOException e) {
             e.printStackTrace();
+        }
+    }
+
+    @FXML
+    public void loadStationFromDB(){
+        Map<String, List<StationSelected>> regionGroups = regionManager.groupingByRegion(StationSelected.convertToSelected(stationsFromDB));
+        Set<String> foundRegions = regionGroups.keySet();
+        for(String region: foundRegions){
+            vboxStations.getChildren().add(new RegionGroupForSelectStation(region, regionGroups.get(region)));
         }
     }
 
