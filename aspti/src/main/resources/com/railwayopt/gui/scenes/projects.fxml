@@ -23,7 +23,7 @@
             <Insets bottom="5.0" left="10.0" right="5.0" top="5.0" />
          </padding>
       </Label>
-      <SplitPane dividerPositions="0.6612729234088457" prefHeight="422.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
+      <SplitPane dividerPositions="0.4627831715210356" prefHeight="422.0" prefWidth="929.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="120.0">
         <items>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
@@ -67,7 +67,7 @@
                   </ScrollPane>
                </children>
             </AnchorPane>
-          <AnchorPane fx:id="projectSharedPanel" minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
+          <AnchorPane fx:id="projectSharedPanel" minHeight="0.0" minWidth="0.0" prefWidth="100.0">
                <children>
                   <Label fx:id="emptyProject" layoutX="63.0" layoutY="59.0" text="Выберите проект" textFill="#00000070" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="10.0">
                      <font>

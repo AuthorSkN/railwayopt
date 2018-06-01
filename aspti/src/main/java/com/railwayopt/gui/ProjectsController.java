@@ -5,6 +5,7 @@ import com.railwayopt.entity.Project;
 import com.railwayopt.gui.custom.ProjectShared;
 import com.railwayopt.gui.custom.ProjectString;
 import com.railwayopt.model.DateManager;
+import com.sun.javafx.scene.SceneEventDispatcher;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -39,7 +40,7 @@ public class ProjectsController implements Controller{
     public void initializeScene() {
         List<Project> projectsFromDB = DB.getAllProjects();
         projects = new HashMap<>();
-        vboxProjectsList.getChildren().remove(0, vboxProjectsList.getChildren().size());
+        vboxProjectsList.getChildren().remove(1, vboxProjectsList.getChildren().size());
         for(Project project: projectsFromDB){
             projects.put(project.getId(), project);
             ProjectString projectString = new ProjectString(project.getId(),project.getName(), project.getDate(),
@@ -77,8 +78,11 @@ public class ProjectsController implements Controller{
     public void addProject(){
         SceneManager.showAddProjectDialog();
         Project newProject = AddProjectDialogController.getNewProject();
-        newProject.setDate(DateManager.getNowDate());
-        DB.addProject(newProject);
-        initializeScene();
+        if(newProject != null){
+            newProject.setDate(DateManager.getNowDate());
+            DB.addProject(newProject);
+            initializeScene();
+        }
     }
+
 }

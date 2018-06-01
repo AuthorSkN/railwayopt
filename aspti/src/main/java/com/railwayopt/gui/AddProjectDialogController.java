@@ -25,7 +25,7 @@ public class AddProjectDialogController implements Controller {
     private static String desc;
     private static List<Factory> factories;
     private static List<Station> stations;
-    private static boolean ok = false;
+    private static boolean ok;
 
     @FXML
     private TextField textFieldNameProject;
@@ -46,7 +46,7 @@ public class AddProjectDialogController implements Controller {
 
     @Override
     public void initializeScene() {
-        this.
+        ok = false;
         factoriesFromDB = DB.getAllFactories();
         stationsFromDB = DB.getAllStations();
         checkSelectAllFactory.selectedProperty().addListener(this::selectAllFactory);

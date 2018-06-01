@@ -1,6 +1,9 @@
 package com.railwayopt.gui;
 
 
+import com.railwayopt.entity.Factory;
+import com.railwayopt.entity.Project;
+import com.railwayopt.entity.Station;
 import com.railwayopt.exceptions.SystemException;
 import com.sun.glass.ui.Size;
 import javafx.fxml.FXMLLoader;
@@ -13,6 +16,7 @@ import javafx.stage.Stage;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.Collection;
 
 /**
  * Класс, позволяющий устанавливать сцены по требованию.
@@ -30,21 +34,26 @@ public class SceneManager {
     private static final String PATH_PROJECTS_SCENE = "scenes/projects.fxml";
     private static final String PATH_ADD_PROJECT_DIALOG_SCENE = "scenes/add_project_dialog.fxml";
     private static final String PATH_ADD_PROJECT_DIALOG_SELECT_SCENE = "scenes/add_project_dialog_select.fxml";
+    private static final String PATH_SOLUTIONS_SCENE = "scenes/solutions.fxml";
+    private static final String PATH_CREATE_SOLUTION_SCENE = "scenes/create_solution_dialog.fxml";
 
     //Стандартные размеры сцен
     private static final Size AUTHORIZATION_SCENE_SIZE = new Size(320, 160);
     private static final Size OPTIMAL_LOGISTIC_CENTRE_SCENE_SIZE = new Size(1000, 700);
-    private static final Size AS_PTI_SCENE_SIZE = new Size(1000, 700);
+    private static final Size AS_PTI_SCENE_SIZE = new Size(1100, 700);
     private static final Size ADD_PROJECT_DIALOG_SIZE = new Size(600, 600);
+    private static final Size CREATE_SOLUTION_DIALOG_SIZE = new Size(700, 700);
 
     //Заголовки сцен
     private static final String AUTHORIZATION_TITLE = "Авторизация";
     private static final String OPTIMAL_LOGISTIC_CENTRE_TITLE = "Выбор оптимального КНРЦ";
     private static final String AS_PTI_SCENE_TITLE = "АС ПТИ";
     private static final String ADD_PROJECT_DIALOG_TITLE = "Создание проекта";
+    private static final String CREATE_SOLUTION_DIALOG_TITLE = "Создание решения проекта";
 
     private static Stage stage;
     private static Stage addProjectDialog;
+    private static Stage createSolutionDialog;
 
     private static Controller installSceneByParameters(String path, String title, Size size) throws SystemException {
         Controller sceneController = null;
@@ -92,9 +101,33 @@ public class SceneManager {
         controller.initializeScene();
     }
 
+    public static void installSolutionsScene(Project project){
+        SolutionsController controller = (SolutionsController) installSceneByParameters(PATH_SOLUTIONS_SCENE, AS_PTI_SCENE_TITLE, AS_PTI_SCENE_SIZE);
+        controller.setProject(project);
+    }
+
+    public static CreateSolutionDialogController showCreateSolutionDialog(Collection<Factory> factories, Collection<Station> stations){
+        CreateSolutionDialogController controller;
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(PATH_CREATE_SOLUTION_SCENE));
+            Parent root = fxmlLoader.load();
+            createSolutionDialog = new Stage();
+            createSolutionDialog.setScene(new Scene(root, ADD_PROJECT_DIALOG_SIZE.width, ADD_PROJECT_DIALOG_SIZE.height));
+            controller = fxmlLoader.getController();
+            createSolutionDialog.setTitle(CREATE_SOLUTION_DIALOG_TITLE);
+            createSolutionDialog.initOwner(stage);
+            createSolutionDialog.initModality(Modality.APPLICATION_MODAL);
+            createSolutionDialog.showAndWait();
+        } catch (IllegalStateException | IOException  exc) {
+            exc.printStackTrace();
+            throw new SystemException();
+        }
+        return controller;
+    }
+
+
     public static void installSelectDataSceneForAddProjectDialog(){
-        try
-        {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(PATH_ADD_PROJECT_DIALOG_SELECT_SCENE));
             Parent root = fxmlLoader.load();
             addProjectDialog.setScene(new Scene(root, 700,700));
@@ -107,14 +140,13 @@ public class SceneManager {
 
     public static AddProjectDialogController showAddProjectDialog(){
         AddProjectDialogController controller;
-        try
-        {
+        try {
             FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(PATH_ADD_PROJECT_DIALOG_SCENE));
             Parent root = fxmlLoader.load();
             addProjectDialog = new Stage();
-            addProjectDialog.setScene(new Scene(root, ADD_PROJECT_DIALOG_SIZE.width, ADD_PROJECT_DIALOG_SIZE.height));
             controller = fxmlLoader.getController();
             addProjectDialog.setTitle(ADD_PROJECT_DIALOG_TITLE);
+            addProjectDialog.setScene(new Scene(root, CREATE_SOLUTION_DIALOG_SIZE.width, CREATE_SOLUTION_DIALOG_SIZE.height));
             addProjectDialog.initOwner(stage);
             addProjectDialog.initModality(Modality.APPLICATION_MODAL);
             addProjectDialog.showAndWait();

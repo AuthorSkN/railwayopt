@@ -23,7 +23,7 @@ public class DB {
         //производства
         double longitude = 60;
         double latitude = 38;
-        for(int i = 0; i < 10; i++){
+        for(int i = 0; i < 20; i++){
             longitude += i;
             latitude -= i;
             Factory factory = new Factory(i, "Производство из БД "+i, latitude, longitude, 1.0/(i+1));
