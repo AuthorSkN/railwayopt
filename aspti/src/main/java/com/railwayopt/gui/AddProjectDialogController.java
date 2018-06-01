@@ -15,6 +15,8 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.attribute.FileAttributeView;
+import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
 import java.util.Set;
@@ -22,7 +24,11 @@ import java.util.Set;
 
 public class AddProjectDialogController implements Controller {
 
-    private static Project newProject = new Project(0, "", "");
+    private static String name;
+    private static String desc;
+    private static List<Factory> factories;
+    private static List<Station> stations;
+    private static boolean ok = false;
 
     @FXML
     private TextField textFieldNameProject;
@@ -43,6 +49,7 @@ public class AddProjectDialogController implements Controller {
 
     @Override
     public void initializeScene() {
+        this.
         factoriesFromDB = DB.getAllFactories();
         stationsFromDB = DB.getAllStations();
         checkSelectAllFactory.selectedProperty().addListener(this::selectAllFactory);
@@ -51,13 +58,18 @@ public class AddProjectDialogController implements Controller {
 
     @FXML
     public void selectData(){
-        newProject.setName(textFieldNameProject.getText());
-        newProject.setDescription(textAreaProjectDescription.getText());
+        name = textFieldNameProject.getText();
+        desc = textAreaProjectDescription.getText();
         SceneManager.installSelectDataSceneForAddProjectDialog();
     }
 
     public static Project getNewProject(){
-        return newProject;
+        if(ok){
+            Project newProject = new Project(0, name, desc);
+            newProject.setFactories(new HashSet<>(factories));
+            newProject.setStations(new HashSet<>(stations));
+        }
+        return null;
     }
 
     public void selectAllFactory(ObservableValue observableValue, Boolean oldValue, Boolean newValue){
@@ -119,6 +131,15 @@ public class AddProjectDialogController implements Controller {
         for(String region: foundRegions){
             vboxStations.getChildren().add(new RegionGroupForSelectStation(region, regionGroups.get(region)));
         }
+    }
+
+    @FXML
+    public void close(){
+        SceneManager.addProjectDialogClose();
+    }
+
+    @FXML void createProject(){
+
     }
 
 }

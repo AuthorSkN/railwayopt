@@ -27,8 +27,8 @@
             <content>
               <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                      <children>
-                        <Button  mnemonicParsing="false" onAction="#loadStationFromDB" text="Загрузить из системы" AnchorPane.rightAnchor="153.0" AnchorPane.topAnchor="14.0" />
-                        <Button  mnemonicParsing="false" text="Загрузить из файла" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
+                        <Button mnemonicParsing="false" onAction="#loadStationFromDB" text="Загрузить из системы" AnchorPane.rightAnchor="153.0" AnchorPane.topAnchor="14.0" />
+                        <Button mnemonicParsing="false" text="Загрузить из файла" AnchorPane.rightAnchor="14.0" AnchorPane.topAnchor="14.0" />
                         <CheckBox fx:id="checkSelectAllStation" mnemonicParsing="false" text="Выбрать все" AnchorPane.leftAnchor="20.0" AnchorPane.topAnchor="14.0" />
                         <VBox fx:id="vboxStations" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="48.0" />
                      </children></AnchorPane>
@@ -36,7 +36,7 @@
           </Tab>
         </tabs>
       </TabPane>
-      <Button layoutX="477.0" layoutY="360.0" mnemonicParsing="false" text="Создать проект" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
-      <Button layoutX="396.0" layoutY="360.0" mnemonicParsing="false" text="Отмена" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="146.0" />
+      <Button layoutX="477.0" layoutY="360.0" mnemonicParsing="false" onAction="#createProject" text="Создать проект" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="15.0" />
+      <Button layoutX="396.0" layoutY="360.0" mnemonicParsing="false" onAction="#close" text="Отмена" AnchorPane.bottomAnchor="15.0" AnchorPane.rightAnchor="146.0" />
    </children>
 </AnchorPane>

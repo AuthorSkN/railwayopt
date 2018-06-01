@@ -125,6 +125,10 @@ public class SceneManager {
         return controller;
     }
 
+    public static void addProjectDialogClose(){
+        addProjectDialog.close();
+    }
+
     /**
      * Выводит сообщение об ошибке
      * @param headMessage главный текст

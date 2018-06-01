@@ -26,7 +26,7 @@ public class DB {
         for(int i = 0; i < 10; i++){
             longitude += i;
             latitude -= i;
-            Factory factory = new Factory(i, "Станция из БД "+i, latitude, longitude, 1.0/(i+1));
+            Factory factory = new Factory(i, "Производство из БД "+i, latitude, longitude, 1.0/(i+1));
             if(i % 2 == 0){
                 factory.setRegion("самарская область");
             }else{
@@ -36,6 +36,21 @@ public class DB {
         }
         //Регионы
         regions = Arrays.asList("Самарская область", "Ульяновская область", "Кировская область");
+        //Станции
+        //производства
+        longitude = 60;
+        latitude = 20;
+        for(int i = 0; i < 10; i++){
+            longitude += i;
+            latitude -= i;
+            Station station = new Station(i, "Станция из БД "+i, latitude, longitude);
+            if(i % 2 == 0){
+                station.setRegion("самарская область");
+            }else{
+                station.setRegion("крым");
+            }
+            stations.put(station.getId(), station);
+        }
     }
 
     public static void addProject(Project project){
