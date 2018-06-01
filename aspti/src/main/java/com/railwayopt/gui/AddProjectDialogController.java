@@ -16,10 +16,7 @@ import javafx.scene.layout.VBox;
 import java.io.File;
 import java.io.IOException;
 import java.nio.file.attribute.FileAttributeView;
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
+import java.util.*;
 
 
 public class AddProjectDialogController implements Controller {
@@ -64,12 +61,13 @@ public class AddProjectDialogController implements Controller {
     }
 
     public static Project getNewProject(){
+        Project newProject = null;
         if(ok){
-            Project newProject = new Project(0, name, desc);
+            newProject = new Project(0, name, desc);
             newProject.setFactories(new HashSet<>(factories));
             newProject.setStations(new HashSet<>(stations));
         }
-        return null;
+        return newProject;
     }
 
     public void selectAllFactory(ObservableValue observableValue, Boolean oldValue, Boolean newValue){
@@ -139,7 +137,16 @@ public class AddProjectDialogController implements Controller {
     }
 
     @FXML void createProject(){
-
+        factories = new ArrayList<>();
+        for(Node node: vboxFactories.getChildren()){
+            factories.addAll(((RegionGroupForSelectFactory)node).getSelectedFactories());
+        }
+        stations = new ArrayList<>();
+        for(Node node: vboxStations.getChildren()){
+            stations.addAll(((RegionGroupForSelectStation)node).getSelectedStations());
+        }
+        this.ok = true;
+        close();
     }
 
 }

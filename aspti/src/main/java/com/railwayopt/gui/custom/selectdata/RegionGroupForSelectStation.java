@@ -21,7 +21,8 @@ public class RegionGroupForSelectStation extends AbstractRegionForSelect<Station
 
 
     public List<StationSelected> getSelectedStations(){
-        return table.getItems().stream().filter(StationSelected::isSelected).collect(Collectors.toList());
+        List<StationSelected> l = table.getItems().stream().filter(StationSelected::isSelected).collect(Collectors.toList());
+        return l;
     }
 
 }

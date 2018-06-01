@@ -4,6 +4,7 @@ import com.railwayopt.DB;
 import com.railwayopt.entity.Project;
 import com.railwayopt.gui.custom.ProjectShared;
 import com.railwayopt.gui.custom.ProjectString;
+import com.railwayopt.model.DateManager;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Button;
@@ -76,6 +77,7 @@ public class ProjectsController implements Controller{
     public void addProject(){
         SceneManager.showAddProjectDialog();
         Project newProject = AddProjectDialogController.getNewProject();
+        newProject.setDate(DateManager.getNowDate());
         DB.addProject(newProject);
         initializeScene();
     }

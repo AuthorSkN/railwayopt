@@ -11,5 +11,10 @@
         <module name="mapview" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="aspti" target="1.8" />
+      <module name="data-access" target="1.8" />
+      <module name="mapview" target="1.8" />
+    </bytecodeTargetLevel>
   </component>
 </project>

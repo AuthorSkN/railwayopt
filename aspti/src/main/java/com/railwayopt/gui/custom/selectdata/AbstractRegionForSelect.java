@@ -46,9 +46,9 @@ public abstract class AbstractRegionForSelect<T extends Selectable> extends Titl
 
             table.setEditable(true);
             tableColumnSelect.setCellValueFactory(param -> {
-                T factorySelected = param.getValue();
-                SimpleBooleanProperty booleanProp = new SimpleBooleanProperty(factorySelected.isSelected());
-                booleanProp.addListener((observable, oldValue, newValue) -> factorySelected.setSelected(newValue));
+                T selected = param.getValue();
+                SimpleBooleanProperty booleanProp = new SimpleBooleanProperty(selected.isSelected());
+                booleanProp.addListener((observable, oldValue, newValue) -> selected.setSelected(newValue));
                 cells.add(booleanProp);
                 return booleanProp;
             });

@@ -1,9 +1,0 @@
-<component name="libraryTable">
-  <library name="railway-optimization-0.0.1.0-SNAPSHOT-jfx">
-    <CLASSES>
-      <root url="jar://$PROJECT_DIR$/target/jfx/app/railway-optimization-0.0.1.0-SNAPSHOT-jfx.jar!/" />
-    </CLASSES>
-    <JAVADOC />
-    <SOURCES />
-  </library>
-</component>
