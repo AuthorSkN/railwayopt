@@ -114,6 +114,7 @@ public class SceneManager {
             createSolutionDialog = new Stage();
             createSolutionDialog.setScene(new Scene(root, ADD_PROJECT_DIALOG_SIZE.width, ADD_PROJECT_DIALOG_SIZE.height));
             controller = fxmlLoader.getController();
+            controller.setObjects(factories, stations);
             createSolutionDialog.setTitle(CREATE_SOLUTION_DIALOG_TITLE);
             createSolutionDialog.initOwner(stage);
             createSolutionDialog.initModality(Modality.APPLICATION_MODAL);

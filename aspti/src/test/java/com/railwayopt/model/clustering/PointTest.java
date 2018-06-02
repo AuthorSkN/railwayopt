@@ -1,5 +1,6 @@
 package com.railwayopt.model.clustering;
 
+import com.railwayopt.model.location.Point;
 import org.junit.Assert;
 import org.junit.Test;
 

@@ -4,7 +4,7 @@ import com.railwayopt.DB;
 import com.railwayopt.dataimport.XlsLoader;
 import com.railwayopt.entity.*;
 import com.railwayopt.gui.custom.selectdata.*;
-import com.railwayopt.model.RegionManager;
+import com.railwayopt.model.location.RegionManager;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -15,7 +15,6 @@ import javafx.scene.layout.VBox;
 
 import java.io.File;
 import java.io.IOException;
-import java.nio.file.attribute.FileAttributeView;
 import java.util.*;
 
 

@@ -1,5 +1,7 @@
 package com.railwayopt.model.clustering;
 
+import com.railwayopt.model.location.Point;
+
 public class Element extends Point {
 
     protected int id;

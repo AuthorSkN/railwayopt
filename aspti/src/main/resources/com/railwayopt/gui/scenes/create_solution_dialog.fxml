@@ -10,7 +10,6 @@
 <?import javafx.scene.layout.VBox?>
 <?import javafx.scene.text.Font?>
 
-
 <AnchorPane prefHeight="400.0" prefWidth="600.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.railwayopt.gui.CreateSolutionDialogController">
    <children>
       <VBox AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
@@ -33,7 +32,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField>
+                  <TextField fx:id="textName">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -51,7 +50,7 @@
                   <Insets left="20.0" />
                </VBox.margin>
             </Label>
-            <TextArea prefHeight="100.0" prefWidth="200.0">
+            <TextArea fx:id="textDesc" prefHeight="100.0" prefWidth="200.0">
                <VBox.margin>
                   <Insets left="20.0" right="20.0" />
                </VBox.margin>
@@ -66,7 +65,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField prefWidth="100.0">
+                  <TextField fx:id="textCountKP" prefWidth="100.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -99,7 +98,7 @@
                         <Font size="14.0" />
                      </font>
                   </Label>
-                  <TextField prefWidth="100.0">
+                  <TextField fx:id="textCountKNRC" prefWidth="100.0">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
@@ -133,7 +132,7 @@
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>
                   </Button>
-                  <Button mnemonicParsing="false" text="Далее">
+                  <Button mnemonicParsing="false" onAction="#setMCOParameters" text="Далее">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                      </HBox.margin>

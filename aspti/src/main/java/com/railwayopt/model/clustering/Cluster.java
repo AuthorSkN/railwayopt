@@ -1,5 +1,7 @@
 package com.railwayopt.model.clustering;
 
+import com.railwayopt.model.location.Point;
+
 import java.util.*;
 
 public class Cluster implements Iterable<Element>, Cloneable {

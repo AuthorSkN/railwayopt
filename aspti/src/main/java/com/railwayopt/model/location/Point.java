@@ -1,10 +1,15 @@
-package com.railwayopt.model.clustering;
+package com.railwayopt.model.location;
 
+
+import com.railwayopt.model.clustering.Element;
+import gov.nasa.worldwind.geom.Angle;
+import gov.nasa.worldwind.geom.coords.UTMCoord;
 
 public class Point implements Cloneable{
 
     protected double x;
     protected double y;
+    protected int zone;
 
     /**
      * Конструктор
@@ -71,6 +76,12 @@ public class Point implements Cloneable{
         this.y = y;
     }
 
+    public void setCoorinatesByLatLon(double latitude, double longitude){
+        UTMCoord coords = UTMCoord.fromLatLon(Angle.fromDegreesLatitude(latitude), Angle.fromDegreesLongitude(longitude));
+        this.x = coords.getEasting();
+        this.y = coords.getNorthing();
+        this.zone = coords.getZone();
+    }
 
 
     @Override

@@ -1,4 +1,4 @@
-package com.railwayopt.model;
+package com.railwayopt.model.location;
 
 
 import com.railwayopt.DB;
