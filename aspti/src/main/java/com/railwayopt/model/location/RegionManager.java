@@ -2,6 +2,7 @@ package com.railwayopt.model.location;
 
 
 import com.railwayopt.DB;
+import com.railwayopt.entity.Infrastructable;
 import com.railwayopt.entity.Infrastructure;
 
 import java.util.*;
@@ -15,11 +16,11 @@ public class RegionManager {
     public RegionManager(){}
 
 
-    public <T extends Infrastructure> Map<String, List<T>> groupingByRegion(List<T> infrastructures){
+    public <T extends Infrastructable> Map<String, List<T>> groupingByRegion(List<T> infrastructures){
         Map<String, List<T>> groups = new HashMap<>();
         groups.put(NONAME_REGION, new ArrayList<>());
         for(T infrastructure: infrastructures){
-            String infrastructureRegion = getCorrectRegionName(infrastructure.getRegion());
+            String infrastructureRegion = getCorrectRegionName(infrastructure.getRegion().getName());
             if(infrastructureRegion == null){
                 groups.get(NONAME_REGION).add(infrastructure);
             }else if(groups.containsKey(infrastructureRegion)){

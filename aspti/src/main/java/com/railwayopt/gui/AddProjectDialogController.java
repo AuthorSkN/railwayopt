@@ -1,7 +1,7 @@
 package com.railwayopt.gui;
 
 import com.railwayopt.DB;
-import com.railwayopt.dataimport.XlsLoader;
+import com.railwayopt.fao.XlsLoader;
 import com.railwayopt.entity.*;
 import com.railwayopt.gui.custom.selectdata.*;
 import com.railwayopt.model.location.RegionManager;

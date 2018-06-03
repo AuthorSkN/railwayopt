@@ -28,9 +28,9 @@ public class DB {
             latitude -= i;
             Factory factory = new Factory(i, "Производство из БД "+i, latitude, longitude, 1.0/(i+1));
             if(i % 2 == 0){
-                factory.setRegion("самарская область");
+                factory.setRegion(new Region(0, "самарская область"));
             }else{
-                factory.setRegion("крым");
+                factory.setRegion(new Region(0,"крым"));
             }
             factories.put(factory.getId(), factory);
         }
@@ -45,9 +45,9 @@ public class DB {
             latitude -= i;
             Station station = new Station(i, "Станция из БД "+i, latitude, longitude);
             if(i % 2 == 0){
-                station.setRegion("самарская область");
+                station.setRegion(new Region(0, "самарская область"));
             }else{
-                station.setRegion("крым");
+                station.setRegion(new Region(0,"крым"));
             }
             stations.put(station.getId(), station);
         }

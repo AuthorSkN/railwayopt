@@ -1,11 +1,9 @@
-package com.railwayopt.dataimport;
+package com.railwayopt.fao;
 
 import com.railwayopt.entity.Factory;
 import com.railwayopt.entity.Station;
 import com.sun.media.sound.InvalidFormatException;
-import org.apache.poi.*;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
-import org.apache.poi.ss.format.CellFormatType;
 import org.apache.poi.ss.usermodel.*;
 
 import java.io.File;
@@ -181,8 +179,8 @@ public class XlsLoader {
             region = currentRow.getCell(regionColumnNum).getStringCellValue();
         }
         //result:
-        Factory prod = new Factory(id, name, longitude, latitude, weight);
-        prod.setRegion(region);
+        Factory prod = new Factory(/*id, name, longitude, latitude, weight*/);
+        /*prod.setRegion(region);*/
         return prod;
     }
 
