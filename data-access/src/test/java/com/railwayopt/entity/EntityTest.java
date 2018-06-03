@@ -4,9 +4,7 @@ import com.railwayopt.dbao.DAORailwayImpl;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-import org.hibernate.query.Query;
 import org.junit.Test;
-import org.omg.PortableInterceptor.SYSTEM_EXCEPTION;
 
 
 import java.util.List;
@@ -29,7 +27,8 @@ public class EntityTest {
 
     @Test
     public void getEntityTest(){
-        Factory factory = new Factory(12, "Новое производство", 45.2, 56.9, 1055.6);
-        new DAORailwayImpl().deleteFactory(factory);
+        Station station = new Station(0, "новая станция", 34.5, 12.7, false);
+        station.setRegion(new Region(2));
+        new DAORailwayImpl().addInfrastructure(station);
     }
 }

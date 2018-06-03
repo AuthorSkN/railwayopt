@@ -27,4 +27,6 @@ public interface Infrastructable {
     String getDescr();
 
     void setDescr(String descr);
+
+    Infrastructure getAndDeleteInfrastructure();
 }
