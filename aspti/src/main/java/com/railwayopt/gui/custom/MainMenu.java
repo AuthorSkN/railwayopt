@@ -1,5 +1,6 @@
 package com.railwayopt.gui.custom;
 
+import com.railwayopt.gui.SceneManager;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.layout.AnchorPane;
 
@@ -20,5 +21,9 @@ public class MainMenu extends AnchorPane {
         } catch (IOException exception) {
             exception.printStackTrace();
         }
+    }
+
+    public void toSharedData(){
+        SceneManager.installSharedDataScene();
     }
 }

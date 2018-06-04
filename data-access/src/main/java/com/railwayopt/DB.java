@@ -32,6 +32,7 @@ public class DB {
             }else{
                 factory.setRegion(new Region(0,"крым"));
             }
+            factory.setFullWeight(12234.124);
             factories.put(factory.getId(), factory);
         }
         //Регионы

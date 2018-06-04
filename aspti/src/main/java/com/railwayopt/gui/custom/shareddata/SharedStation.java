@@ -1,4 +1,4 @@
-package com.railwayopt.gui.custom;
+package com.railwayopt.gui.custom.shareddata;
 
 import com.railwayopt.entity.Station;
 
@@ -6,7 +6,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SharedStation extends Station {
+public class SharedStation extends Station implements Numberable{
 
     private String sharedIsLC;
     private int number;
@@ -26,7 +26,6 @@ public class SharedStation extends Station {
         return sharedIsLC;
     }
 
-    @Override
     public void setExistLogisticCentre(boolean existLogisticCentre){
         super.setExistLogisticCentre(existLogisticCentre);
         sharedIsLC = (existLogisticCentre)? "да" : "нет";

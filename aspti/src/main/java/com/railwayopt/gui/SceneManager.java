@@ -36,6 +36,7 @@ public class SceneManager {
     private static final String PATH_ADD_PROJECT_DIALOG_SELECT_SCENE = "scenes/add_project_dialog_select.fxml";
     private static final String PATH_SOLUTIONS_SCENE = "scenes/solutions.fxml";
     private static final String PATH_CREATE_SOLUTION_SCENE = "scenes/create_solution_dialog.fxml";
+    private static final String PATH_SHARED_DATA_SCENE = "scenes/shared_data.fxml";
 
     //Стандартные размеры сцен
     private static final Size AUTHORIZATION_SCENE_SIZE = new Size(320, 160);
@@ -98,6 +99,11 @@ public class SceneManager {
 
     public static void installProjectsScene() throws SystemException{
         ProjectsController controller = (ProjectsController) installSceneByParameters(PATH_PROJECTS_SCENE, AS_PTI_SCENE_TITLE, AS_PTI_SCENE_SIZE);
+        controller.initializeScene();
+    }
+
+    public static void installSharedDataScene() {
+        Controller controller = installSceneByParameters(PATH_SHARED_DATA_SCENE, AS_PTI_SCENE_TITLE, AS_PTI_SCENE_SIZE);
         controller.initializeScene();
     }
 

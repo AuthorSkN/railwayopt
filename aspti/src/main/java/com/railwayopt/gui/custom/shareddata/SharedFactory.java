@@ -1,18 +1,20 @@
-package com.railwayopt.gui.custom;
+package com.railwayopt.gui.custom.shareddata;
 
 import com.railwayopt.entity.Factory;
-import com.railwayopt.entity.Station;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.List;
 
-public class SharedFactory extends Factory {
+public class SharedFactory extends Factory implements Numberable{
 
     private int number;
 
     public SharedFactory(Factory factory){
         super(factory.getId(), factory.getName(), factory.getLatitude(), factory.getLongitude(), factory.getWeight());
+        this.setRegion(factory.getRegion());
+        this.setCargoes(factory.getCargoes());
+        this.setFullWeight(factory.getFullWeight());
     }
 
     public SharedFactory(int number, Factory factory){
