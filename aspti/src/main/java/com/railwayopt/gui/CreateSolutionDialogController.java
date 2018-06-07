@@ -2,6 +2,9 @@ package com.railwayopt.gui;
 
 import com.railwayopt.entity.Factory;
 import com.railwayopt.entity.Station;
+import com.railwayopt.mapview.GeoPoint;
+import com.railwayopt.mapview.MapView;
+import com.railwayopt.mapview.googlemap.GoogleMapAPI;
 import com.railwayopt.model.clustering.Element;
 import com.railwayopt.model.clustering.kmeanspro.KProInitializer;
 import javafx.fxml.FXML;
@@ -19,39 +22,51 @@ public class CreateSolutionDialogController implements Controller{
     private TextField textCountKP;
     @FXML
     private TextField textCountKNRC;
+    @FXML
+    private MapView mapView;
 
-    private Collection<Factory> factories;
-    private Collection<Station> stations;
-    private String name;
-    private String desc;
-    private int countKP;
-    private int countKNRC;
+    private static Collection<Factory> projectFactories;
+    private static Collection<Station> projectStations;
+    private static String name;
+    private static String desc;
+    private static int countKP;
+    private static int countKNRC;
 
 
     public void setObjects(Collection<Factory> factories, Collection<Station> stations){
-        this.factories = factories;
-        this.stations = stations;
+        projectFactories = factories;
+        projectStations = stations;
     }
 
     @Override
-    public void initializeScene() {
+    public void initializeScene()  {
+        mapView.setMapAPI(new GoogleMapAPI());
+        mapView.reloadMap();
+        mapView.onLoadedMap(()-> {
+            for (Factory factory : projectFactories) {
+                mapView.createMapPoint(factory.getId(), new GeoPoint(factory.getLatitude(), factory.getLongitude()), 3);
+            }
+        });
+    }
 
+    @FXML
+    public void cliced(){
+        mapView.createMapPoint(4, new GeoPoint(65.7, 37.3), 3);
     }
 
     @FXML
     public void setMCOParameters(){
-        this.name = textName.getText();
-        this.desc = textDesc.getText();
-        this.countKP = Integer.parseInt(textCountKP.getText());
-        this.countKNRC = Integer.parseInt(textCountKNRC.getText());
-        if (this.countKNRC == 0){
+        name = textName.getText();
+        desc = textDesc.getText();
+        countKP = Integer.parseInt(textCountKP.getText());
+        countKNRC = Integer.parseInt(textCountKNRC.getText());
+        if (countKNRC == 0){
             createSolution();
         }
     }
 
     public void createSolution(){
-        KProInitializer initializer = new KProInitializer();
-
+        SceneManager.installMapSceneForSolutionDialog();
     }
 
 }

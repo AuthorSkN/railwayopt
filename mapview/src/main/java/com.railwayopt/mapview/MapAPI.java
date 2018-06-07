@@ -1,6 +1,8 @@
 package com.railwayopt.mapview;
 
 
+import com.railwayopt.mapview.event.EventHandler;
+import com.railwayopt.mapview.event.MapEventListener;
 import com.railwayopt.mapview.graphic.MapPolyline;
 import com.railwayopt.mapview.graphic.MapPoint;
 import javafx.beans.value.*;
@@ -16,7 +18,7 @@ public abstract class MapAPI {
     public static int MAP_LINE = 1;
 
     private WebEngine web;
-    private boolean loadingMap = true;
+    private EventHandler handler = new EventHandler();
 
     protected abstract URL getMapHTMLLocation();
 
@@ -24,25 +26,28 @@ public abstract class MapAPI {
         this.web = webEngine;
     }
 
+    void setOnLoadedMapListener(MapEventListener onLoadedMapListener){
+        handler.onLoadedMap(onLoadedMapListener);
+    }
+
     void loadMap(){
         web.load(getMapHTMLLocation().toExternalForm());
-        loadingMap = true;
         web.getLoadWorker().stateProperty().addListener(new ChangeListener<Worker.State>() {
             @Override
             public void changed(ObservableValue<? extends Worker.State> ov, Worker.State t, Worker.State t1) {
                 if (t1 == Worker.State.SUCCEEDED) {
-                    loadingMap = false;
+                    JSObject map = getJSMap();
+                    map.setMember("controller", handler);
                 }
             }
         });
+        JSObject map = getJSMap();
+        map.setMember("controller", handler);
     }
+
 
     protected JSObject getJSMap(){
         return (JSObject)web.executeScript("window");
-    }
-
-    public boolean isLoadedMap(){
-        return !loadingMap;
     }
 
     public abstract void showObject(int objectId, int objectType);

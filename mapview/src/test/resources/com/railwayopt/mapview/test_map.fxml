@@ -12,12 +12,14 @@
       
          <HBox prefHeight="30.0" prefWidth="600.0" BorderPane.alignment="CENTER">
             <children>
+               <Button mnemonicParsing="false" text="Button" />
                <Button fx:id="buttonShowPoints" mnemonicParsing="false" onAction="#showPoints" text="Отобразить точки" />
                <Button fx:id="buttonShowLines" mnemonicParsing="false" onAction="#showLines" text="Отбразить линии" />
                <Button fx:id="buttonChangePoints" mnemonicParsing="false" onAction="#changePoints" text="Изменить точки" />
                <Button fx:id="buttonChangeLines" mnemonicParsing="false" onAction="#changeLines" text="Изменить линии" />
                <Button fx:id="buttonGroupingPointAndLines" mnemonicParsing="false" onAction="#grouping" text="Сгруппировать точки и линии" />
                 <Button fx:id="buttonHideGroups" mnemonicParsing="false" onAction="#hideGroups" text="Скрыть созданные группы" />
+               <Button mnemonicParsing="false" onAction="#deleteAll" text="Удалить всё" />
             </children></HBox>
       </top>
       <center>

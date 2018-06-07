@@ -37,6 +37,7 @@ public class SceneManager {
     private static final String PATH_SOLUTIONS_SCENE = "scenes/solutions.fxml";
     private static final String PATH_CREATE_SOLUTION_SCENE = "scenes/create_solution_dialog.fxml";
     private static final String PATH_SHARED_DATA_SCENE = "scenes/shared_data.fxml";
+    private static final String PATH_MAP_SOLUTION_SCENE = "scenes/map_solution.fxml";
 
     //Стандартные размеры сцен
     private static final Size AUTHORIZATION_SCENE_SIZE = new Size(320, 160);
@@ -130,6 +131,18 @@ public class SceneManager {
             throw new SystemException();
         }
         return controller;
+    }
+
+    public static void installMapSceneForSolutionDialog(){
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(SceneManager.class.getResource(PATH_MAP_SOLUTION_SCENE));
+            Parent root = fxmlLoader.load();
+            createSolutionDialog.setScene(new Scene(root, 1000,700));
+            fxmlLoader.<Controller>getController().initializeScene();
+        } catch (IllegalStateException | IOException  exc) {
+            exc.printStackTrace();
+            throw new SystemException();
+        }
     }
 
 

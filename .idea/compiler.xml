@@ -15,6 +15,7 @@
       <module name="aspti" target="1.8" />
       <module name="data-access" target="1.8" />
       <module name="mapview" target="1.8" />
+      <module name="railway-optimization" target="1.8" />
       <module name="railwayopt" target="1.8" />
     </bytecodeTargetLevel>
   </component>

@@ -1,6 +1,7 @@
 package com.railwayopt.mapview;
 
 
+import com.railwayopt.mapview.event.MapEventListener;
 import com.railwayopt.mapview.graphic.*;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
@@ -156,7 +157,7 @@ public class MapView extends BorderPane {
         return lines.get(lineId);
     }
 
-    /*
+    /**
      * Создает линию на карте
      * @param lineId lineId линии
      * @param weight вес линии
@@ -174,6 +175,14 @@ public class MapView extends BorderPane {
             //Exception
         }
         return mapPolyline;
+    }
+
+    /**
+     * Удаляет линию с карты по её id
+     * @param lineId id линии на карте
+     */
+    public void deleteMapPolyline(int lineId){
+        mapAPI.deleteLine(lineId);
     }
 
     /**
@@ -250,6 +259,32 @@ public class MapView extends BorderPane {
     public void deleteLineGroup(int groupId){
         MapLineGroup group = lineGroups.remove(groupId);
         group.clear();
+    }
+
+    /**
+     * Удаляет все точки с карты
+     */
+    public void deleteAllPoint(){
+        for(Integer id: points.keySet()){
+            this.deleteMapPoint(id);
+        }
+        points.clear();
+        pointGroups.clear();
+    }
+
+    /**
+     * Удаляет все линии с карты
+     */
+    public void deleteAllLines(){
+        for(Integer id: lines.keySet()){
+            this.deleteMapPolyline(id);
+        }
+        lines.clear();
+        lineGroups.clear();
+    }
+
+    public void onLoadedMap(MapEventListener listener){
+        mapAPI.setOnLoadedMapListener(listener);
     }
 
 }

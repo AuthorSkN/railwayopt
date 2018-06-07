@@ -8,7 +8,7 @@ class LinesController {
     }
 
     setLineByID(line){
-        this.deleteLine(line.getId());
+        this.deleteLineById(line.getId());
         let points = line.getPoints();
         let coordinates = [];
         for(let i = 0; i < points.size(); i++) {
@@ -28,7 +28,7 @@ class LinesController {
         this.lineList[line.getId()] = newLine;
     }
 
-    deleteLine(lineId){
+    deleteLineById(lineId){
         if(lineId in this.lineList){
             this.lineList[lineId].setMap(null);
             this.lineList[lineId] = null;

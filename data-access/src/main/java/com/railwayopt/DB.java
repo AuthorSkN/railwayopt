@@ -50,6 +50,7 @@ public class DB {
             }else{
                 station.setRegion(new Region(0,"крым"));
             }
+            station.setExistLogisticCentre(false);
             stations.put(station.getId(), station);
         }
     }

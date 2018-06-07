@@ -25,6 +25,7 @@ public class TestController {
     public void loadMap(){
         mapView.setMapAPI(new GoogleMapAPI());
         mapView.reloadMap();
+        mapView.onLoadedMap(()->mapView.createMapPoint(0, new GeoPoint(60, 37), 4));
     }
 
     public void showPoints(){
@@ -100,6 +101,12 @@ public class TestController {
         MapLineGroup lineGroup = mapView.getMapLineGroup(0);
         pointGroup.setVisible(false);
         lineGroup.setVisible(false);
+    }
+
+    @FXML
+    public void deleteAll(){
+        mapView.deleteAllPoint();
+        mapView.deleteAllLines();
     }
 
 }

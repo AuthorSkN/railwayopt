@@ -11,6 +11,7 @@ function initMap() {
     });
     pointsController = new PointsController(map);
     linesController = new LinesController(map);
+    window.controller.loadedMap();
 }
 
 function addLine(line){
@@ -19,6 +20,10 @@ function addLine(line){
 
 function changeLine(line){
     addLine(line);
+}
+
+function deleteLine(lineId){
+    linesController.deleteLineById(lineId);
 }
 
 function addMarkerGroup(grIdxMarkers, st){

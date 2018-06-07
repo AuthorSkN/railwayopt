@@ -11,7 +11,7 @@ public class StationSelected extends Station implements Selectable{
     public StationSelected(Station station){
         super(station.getId(), station.getName(), station.getLatitude(), station.getLongitude(), station.isExistLogisticCentre());
         this.setRegion(station.getRegion());
-    }
+}
 
     @Override
     public boolean isSelected() {
