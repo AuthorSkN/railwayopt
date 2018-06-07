@@ -13,7 +13,7 @@
     <MainMenu />
    <HBox alignment="TOP_RIGHT" prefHeight="30.0" prefWidth="200.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="30.0">
       <children>
-         <Button mnemonicParsing="false" onAction="#addData" text="Добавить">
+         <Button mnemonicParsing="false" onAction="#loadDataFromFile" text="Добавить">
             <HBox.margin>
                <Insets left="5.0" right="5.0" />
             </HBox.margin>
@@ -22,7 +22,7 @@
             <HBox.margin>
                <Insets left="5.0" right="5.0" />
             </HBox.margin></Button>
-         <Button mnemonicParsing="false" text="Удалить">
+         <Button mnemonicParsing="false" onAction="#deleteAll" text="Удалить">
             <HBox.margin>
                <Insets left="5.0" right="5.0" />
             </HBox.margin></Button>
@@ -31,13 +31,13 @@
          <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
       </padding>
    </HBox>
-   <TabPane layoutX="3.0" layoutY="73.0" prefHeight="200.0" prefWidth="594.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
+   <TabPane fx:id="tabPane" layoutX="3.0" layoutY="73.0" prefHeight="200.0" prefWidth="594.0" tabClosingPolicy="UNAVAILABLE" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="65.0">
      <tabs>
        <Tab text="Производства">
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <VBox fx:id="vboxFactory" layoutX="14.0" layoutY="39.0" prefHeight="272.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     <VBox fx:id="vboxFactories" layoutX="14.0" layoutY="39.0" prefHeight="272.0" prefWidth="600.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children>
                </AnchorPane>
          </content>
@@ -46,7 +46,7 @@
          <content>
            <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="180.0" prefWidth="200.0">
                   <children>
-                     <VBox prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
+                     <VBox fx:id="vboxStations" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="0.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0" />
                   </children>
                </AnchorPane>
          </content>

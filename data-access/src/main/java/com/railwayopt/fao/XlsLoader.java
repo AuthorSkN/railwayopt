@@ -1,5 +1,6 @@
 package com.railwayopt.fao;
 
+import com.railwayopt.RegionManager;
 import com.railwayopt.entity.Factory;
 import com.railwayopt.entity.Station;
 import com.sun.media.sound.InvalidFormatException;
@@ -53,14 +54,6 @@ public class XlsLoader {
      */
     private int lattColumnNum = -1;
     /**
-     * Номер столбца координат Y в документе
-     */
-    private int XColumnNum = -1;
-    /**
-     * Номер столбца координат Х в документе
-     */
-    private int YColumnNum = -1;
-    /**
      * Номер столбца имен в документе
      */
     private int nameColumnNum = -1;
@@ -70,6 +63,9 @@ public class XlsLoader {
      * Номер столбца показателей КП в документе
      */
     private int logisticCenterColumnNum = -1;
+
+    private int classColumnNum = -1;
+    private RegionManager regionManager = new RegionManager();
 
     /**
      * Конструктор для создания загрузчика данных из электронных таблиц
@@ -109,12 +105,6 @@ public class XlsLoader {
                 case "lt":
                     lattColumnNum = i;
                     break;
-                case "x":
-                    XColumnNum = i;
-                    break;
-                case "y":
-                    YColumnNum = i;
-                    break;
                 case "weight":
                     weightColumnNum = i;
                     break;
@@ -129,6 +119,7 @@ public class XlsLoader {
                     logisticCenterColumnNum = i;
                     break;
                 case "region": regionColumnNum = i; break;
+                case "class": classColumnNum = i; break;
                 default:
                     throw new IllegalArgumentException("Unknown token: \"" + token + "\" from string \"" + cellString + "\" from cell " + currentCell.toString());
             }
@@ -158,16 +149,6 @@ public class XlsLoader {
             currentCell = currentRow.getCell(lattColumnNum);
             latitude = currentCell.getNumericCellValue();
         }
-        //x:
-        Double x = null;
-        if (XColumnNum != -1) {
-            x = currentRow.getCell(XColumnNum).getNumericCellValue();
-        }
-        //y:
-        Double y = null;
-        if (YColumnNum != -1) {
-            y = currentRow.getCell(YColumnNum).getNumericCellValue();
-        }
         //name:
         String name = "";
         if (nameColumnNum != -1) {
@@ -179,9 +160,9 @@ public class XlsLoader {
             region = currentRow.getCell(regionColumnNum).getStringCellValue();
         }
         //result:
-        Factory prod = new Factory(/*id, name, longitude, latitude, weight*/);
-        /*prod.setRegion(region);*/
-        return prod;
+        Factory factory = new Factory(id, name, longitude, latitude, weight);
+        factory.setRegion(regionManager.getCorrectRegion(region));
+        return factory;
     }
 
     private Station readStation() {
@@ -200,16 +181,6 @@ public class XlsLoader {
         //lattitude:
         currentCell = currentRow.getCell(lattColumnNum);
         double lattitude = currentCell.getNumericCellValue();
-        //x:
-        Double x = null;
-        if (XColumnNum != -1) {
-            x = currentRow.getCell(XColumnNum).getNumericCellValue();
-        }
-        //y:
-        Double y = null;
-        if (YColumnNum != -1) {
-            y = currentRow.getCell(YColumnNum).getNumericCellValue();
-        }
         //name:
         String name = "";
         if (nameColumnNum != -1) {
@@ -221,9 +192,21 @@ public class XlsLoader {
             double cellValue = currentRow.getCell(logisticCenterColumnNum).getNumericCellValue();
             isLC = (cellValue == 1) ? true : false;
         }
+        Integer stationClass = null;
+        if (classColumnNum != -1) {
+            stationClass = (int)currentRow.getCell(classColumnNum).getNumericCellValue();
+        }
+
+        //region
+        String region = "";
+        if (regionColumnNum != -1) {
+            region = currentRow.getCell(regionColumnNum).getStringCellValue();
+        }
         //result:s
-        /*Station stat = new Station(id, name, longitude, lattitude, weight, isLC);*/
-        return null;
+        Station stat = new Station(id, name, longitude, lattitude, isLC);
+        stat.setStationClass(stationClass);
+        stat.setRegion(regionManager.getCorrectRegion(region));
+        return stat;
     }
 
     /**
@@ -231,7 +214,7 @@ public class XlsLoader {
      *
      * @return
      */
-    public List<Factory> readProductions() {
+    public List<Factory> readFactories() {
         List<Factory> productions = new LinkedList<>();
         readHeader();
         int i = 1;
@@ -253,8 +236,8 @@ public class XlsLoader {
      *
      * @return
      */
-    public LinkedList<Station> readStations() {
-        /*LinkedList<Station> stations = new LinkedList<>();
+    public List<Station> readStations() {
+        List<Station> stations = new ArrayList<>();
         readHeader();
         int i = 1;
         currentRow = dataSheet.getRow(i);
@@ -264,8 +247,8 @@ public class XlsLoader {
             stations.add(nextStat);
             currentRow = dataSheet.getRow(++i);
             currentCell = (currentRow == null) ? null : currentRow.getCell(0);
-        }*/
-        return null;
+        }
+        return stations;
     }
 
     /*///report stuff:

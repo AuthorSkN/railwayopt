@@ -1,10 +1,11 @@
 package com.railwayopt.gui;
 
 import com.railwayopt.DB;
+import com.railwayopt.dbao.DAORailwayImpl;
 import com.railwayopt.fao.XlsLoader;
 import com.railwayopt.entity.*;
 import com.railwayopt.gui.custom.selectdata.*;
-import com.railwayopt.model.location.RegionManager;
+import com.railwayopt.RegionManager;
 import javafx.beans.value.ObservableValue;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
@@ -46,10 +47,21 @@ public class AddProjectDialogController implements Controller {
     @Override
     public void initializeScene() {
         ok = false;
-        factoriesFromDB = DB.getAllFactories();
-        stationsFromDB = DB.getAllStations();
+        DAORailwayImpl dao = new DAORailwayImpl();
+        factoriesFromDB = dao.getAllFactories();
+        stationsFromDB = dao.getAllStations();
         checkSelectAllFactory.selectedProperty().addListener(this::selectAllFactory);
+        Map<String, List<FactorySelected>> regionFactoryGroups = regionManager.groupingByRegion(FactorySelected.convertToSelected(factoriesFromDB));
+        Set<String> foundRegions = regionFactoryGroups.keySet();
+        for(String region: foundRegions){
+            vboxFactories.getChildren().add(new RegionGroupForSelectFactory(region, regionFactoryGroups.get(region)));
+        }
         checkSelectAllStation.selectedProperty().addListener(this::selectAllStation);
+        Map<String, List<StationSelected>> regionStationGroups = regionManager.groupingByRegion(StationSelected.convertToSelected(stationsFromDB));
+        foundRegions = regionStationGroups.keySet();
+        for(String region: foundRegions){
+            vboxStations.getChildren().add(new RegionGroupForSelectStation(region, regionStationGroups.get(region)));
+        }
     }
 
     @FXML
@@ -110,7 +122,7 @@ public class AddProjectDialogController implements Controller {
         XlsLoader loader = null;
         try {
             loader = new XlsLoader(file);
-            List<Factory> factories = loader.readProductions();
+            List<Factory> factories = loader.readFactories();
             Map<String, List<FactorySelected>> regionGroups = regionManager.groupingByRegion(FactorySelected.convertToSelected(factories));
             Set<String> foundRegions = regionGroups.keySet();
             for(String region: foundRegions){

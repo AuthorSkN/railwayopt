@@ -1,6 +1,7 @@
 package com.railwayopt.gui;
 
 
+import com.railwayopt.dbao.DAOAbstract;
 import com.railwayopt.entity.Factory;
 import com.railwayopt.entity.Project;
 import com.railwayopt.entity.Station;
@@ -83,6 +84,7 @@ public class SceneManager {
      */
     public static void init(Stage mainStage){
         stage = mainStage;
+        stage.setOnCloseRequest(event -> DAOAbstract.closeConnection());
     }
 
 

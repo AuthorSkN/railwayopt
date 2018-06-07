@@ -8,9 +8,9 @@ import org.hibernate.cfg.Configuration;
 
 import java.util.List;
 
-public abstract class DAOAbstract<T> {
+public abstract class DAOAbstract {
 
-    private SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
+    private static SessionFactory sessionFactory = new Configuration().configure().buildSessionFactory();
 
     protected Session getSession(){
         Session session = null;
@@ -21,6 +21,10 @@ public abstract class DAOAbstract<T> {
             exc.printStackTrace();
         }
         return session;
+    }
+
+    public static void closeConnection(){
+        sessionFactory.close();
     }
 
 

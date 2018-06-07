@@ -16,6 +16,8 @@ public class RegionGroupForSharedFactory extends AbstaractRegionForShared<Shared
     private TableColumn<SharedFactory, Double> tableColumnWeight;
     @FXML
     private TableColumn<SharedFactory, Double> tableColumnFullWeight;
+    @FXML
+    private TableColumn<SharedFactory, String> tableColumnCargoes;
 
     private List<FactorySelected> factories;
 
@@ -23,6 +25,7 @@ public class RegionGroupForSharedFactory extends AbstaractRegionForShared<Shared
         super(FXML_COMPONENT_NAME, name);
         tableColumnWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
         tableColumnFullWeight.setCellValueFactory(new PropertyValueFactory<>("fullWeight"));
+        tableColumnCargoes.setCellValueFactory(new PropertyValueFactory<>("cargoes"));
         table.setItems(FXCollections.observableArrayList(factories));
     }
 }

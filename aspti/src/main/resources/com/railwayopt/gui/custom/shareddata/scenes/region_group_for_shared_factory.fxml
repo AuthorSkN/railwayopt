@@ -12,6 +12,7 @@
                     <columns>
                         <TableColumn fx:id="tableColumnNumber" prefWidth="35.0" text="#"/>
                         <TableColumn fx:id="tableColumnName" prefWidth="115.0" text="Название" />
+                        <TableColumn fx:id="tableColumnCargoes" prefWidth="75.0" text="Номенклатура грузов" />
                         <TableColumn fx:id="tableColumnLatitude" prefWidth="75.0" text="Широта" />
                         <TableColumn fx:id="tableColumnLongitude" prefWidth="75.0" text="Долгота" />
                         <TableColumn fx:id="tableColumnFullWeight" prefWidth="75.0" text="Объем производства" />

@@ -26,4 +26,8 @@ public class MainMenu extends AnchorPane {
     public void toSharedData(){
         SceneManager.installSharedDataScene();
     }
+
+    public void toProjects(){
+        SceneManager.installProjectsScene();
+    }
 }

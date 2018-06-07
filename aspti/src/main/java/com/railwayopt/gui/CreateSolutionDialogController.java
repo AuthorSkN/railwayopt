@@ -49,10 +49,6 @@ public class CreateSolutionDialogController implements Controller{
         });
     }
 
-    @FXML
-    public void cliced(){
-        mapView.createMapPoint(4, new GeoPoint(65.7, 37.3), 3);
-    }
 
     @FXML
     public void setMCOParameters(){

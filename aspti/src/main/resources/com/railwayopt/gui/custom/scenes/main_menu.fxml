@@ -12,7 +12,7 @@
             <Button mnemonicParsing="false" styleClass="num" text="О программе">
             </Button>
             <Button mnemonicParsing="false" onAction="#toSharedData" text="Обзор данных" />
-            <Button alignment="TOP_LEFT" mnemonicParsing="false" text="Проекты" />
+            <Button alignment="TOP_LEFT" mnemonicParsing="false" onAction="#toProjects" text="Проекты" />
          </children>
          <effect>
             <Blend>
