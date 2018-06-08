@@ -13,17 +13,17 @@ public class RegionGroupForSharedStation extends AbstaractRegionForShared<Shared
     private static final String FXML_COMPONENT_NAME = "scenes/region_group_for_shared_station.fxml";
 
     @FXML
-    private TableColumn<SharedFactory, Integer> tableColumnClass;
+    private TableColumn<SharedStation, Integer> tableColumnClass;
     @FXML
-    private TableColumn<SharedFactory, String> tableColumnType;
+    private TableColumn<SharedStation, String> tableColumnType;
     @FXML
-    private TableColumn<SharedFactory, String> tableColumnIsLogCentre;
+    private TableColumn<SharedStation, String> tableColumnIsLogCentre;
 
     public RegionGroupForSharedStation(String name, List<SharedStation> stations) {
         super(FXML_COMPONENT_NAME, name);
         tableColumnClass.setCellValueFactory(new PropertyValueFactory<>("stationClass"));
         tableColumnType.setCellValueFactory(new PropertyValueFactory<>("type"));
-        tableColumnIsLogCentre.setCellValueFactory(new PropertyValueFactory<>("existLogisticCentre"));
+        tableColumnIsLogCentre.setCellValueFactory(new PropertyValueFactory<>("sharedIsLC"));
         table.setItems(FXCollections.observableArrayList(stations));
     }
 }

@@ -42,6 +42,14 @@ public class DAORailwayImpl extends DAOAbstract{
         return stations;
     }
 
+    public void deleteAllStation(){
+        Session session = getSession();
+        session.beginTransaction();
+        session.createQuery("Delete Station").executeUpdate();
+        session.createQuery("Delete Infrastructure Where is_station=:station").setParameter("station", true).executeUpdate();
+        session.getTransaction().commit();
+    }
+
     public List<RailwayPart> getAllRailways(){
         Session session = getSession();
         session.beginTransaction();

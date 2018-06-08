@@ -28,14 +28,17 @@ public class RegionGroupForSelectFactory extends AbstractRegionForSelect<Factory
     private List<FactorySelected> factories;
 
     public RegionGroupForSelectFactory(String name, List<FactorySelected> factories){
-        super(FXML_COMPONENT_NAME, name);
+        super(FXML_COMPONENT_NAME, name, factories);
+        this.factories = factories;
         tableColumnWeight.setCellValueFactory(new PropertyValueFactory<>("weight"));
         table.setItems(FXCollections.observableArrayList(factories));
     }
 
 
     public List<FactorySelected> getSelectedFactories(){
-        return table.getItems().stream().filter(FactorySelected::isSelected).collect(Collectors.toList());
+        List<FactorySelected> selectedList = new ArrayList<>();
+        selectedList = factories.stream().filter(FactorySelected::isSelected).collect(Collectors.toList());
+        return selectedList;/*table.getItems().stream().filter(FactorySelected::isSelected).collect(Collectors.toList());*/
     }
 
 

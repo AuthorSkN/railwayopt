@@ -92,6 +92,19 @@ public class SharedDataController implements Controller{
 
     @FXML
     public void deleteAll(){
+        switch (tabPane.getSelectionModel().getSelectedIndex()){
+            case 0: deleteAllFactories(); break;
+            case 1: deleteAllStations(); break;
+        }
+    }
+
+    public void deleteAllFactories(){
         new DAORailwayImpl().deleteAllFactory();
+        reloadFactory();
+    }
+
+    public void deleteAllStations(){
+        new DAORailwayImpl().deleteAllStation();
+        reloadStation();
     }
 }

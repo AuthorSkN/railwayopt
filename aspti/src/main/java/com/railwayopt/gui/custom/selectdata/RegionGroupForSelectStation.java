@@ -5,6 +5,7 @@ import javafx.fxml.FXML;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.cell.PropertyValueFactory;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -15,14 +16,18 @@ public class RegionGroupForSelectStation extends AbstractRegionForSelect<Station
     private List<StationSelected> stations;
 
     public RegionGroupForSelectStation(String name, List<StationSelected> stations){
-        super(FXML_COMPONENT_NAME, name);
+        super(FXML_COMPONENT_NAME, name, stations);
+        this.stations = stations;
         table.setItems(FXCollections.observableArrayList(stations));
     }
 
 
     public List<StationSelected> getSelectedStations(){
-        List<StationSelected> l = table.getItems().stream().filter(StationSelected::isSelected).collect(Collectors.toList());
-        return l;
+        List<StationSelected> selectedList = new ArrayList<>();
+        for(StationSelected station: stations)
+            if(station.isSelected())
+                selectedList.add(station);
+        return selectedList;
     }
 
 }

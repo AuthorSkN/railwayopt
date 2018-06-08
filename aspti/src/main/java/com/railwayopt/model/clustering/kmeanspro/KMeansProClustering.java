@@ -49,7 +49,7 @@ public class KMeansProClustering implements Clustering {
     }
 
     @Override
-    public List<? extends Cluster> clustering() {
+    public List<? extends Cluster> clustering(){
         List<ProjectedCluster> clusters = null;
         try {
              clusters = new LinkedList<>();

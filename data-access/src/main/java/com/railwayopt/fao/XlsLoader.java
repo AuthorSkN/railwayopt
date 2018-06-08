@@ -65,6 +65,9 @@ public class XlsLoader {
     private int logisticCenterColumnNum = -1;
 
     private int classColumnNum = -1;
+    private int fullWeightColumnNum = -1;
+    private int cargoesColumnName = -1;
+    private int typeColumnName = -1;
     private RegionManager regionManager = new RegionManager();
 
     /**
@@ -108,6 +111,9 @@ public class XlsLoader {
                 case "weight":
                     weightColumnNum = i;
                     break;
+                case "fullweight":
+                    fullWeightColumnNum = i;
+                    break;
                 case "id":
                     idColumnNum = i;
                     break;
@@ -120,6 +126,9 @@ public class XlsLoader {
                     break;
                 case "region": regionColumnNum = i; break;
                 case "class": classColumnNum = i; break;
+                case "cargoes": cargoesColumnName = i; break;
+                case "type": typeColumnName = i; break;
+                case "": break;
                 default:
                     throw new IllegalArgumentException("Unknown token: \"" + token + "\" from string \"" + cellString + "\" from cell " + currentCell.toString());
             }

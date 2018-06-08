@@ -2,7 +2,6 @@ package com.railwayopt.gui.custom.selectdata;
 
 import javafx.beans.property.*;
 import javafx.beans.value.ObservableValue;
-import javafx.collections.FXCollections;
 import javafx.fxml.*;
 import javafx.geometry.Pos;
 import javafx.scene.control.*;
@@ -28,10 +27,12 @@ public abstract class AbstractRegionForSelect<T extends Selectable> extends Titl
     @FXML
     protected CheckBox checkAllSelect;
 
+    private List<? extends Selectable> objects;
+
 
     private List<BooleanProperty> cells = new ArrayList<>(10);
 
-    public AbstractRegionForSelect(String fxmlComponentName, String name){
+    public AbstractRegionForSelect(String fxmlComponentName, String name, List<? extends Selectable> objects){
         super();
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(fxmlComponentName));
         fxmlLoader.setRoot(this);
@@ -61,6 +62,7 @@ public abstract class AbstractRegionForSelect<T extends Selectable> extends Titl
             tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
             tableColumnLatitude.setCellValueFactory(new PropertyValueFactory<>("latitude"));
             tableColumnLongitude.setCellValueFactory(new PropertyValueFactory<>("longitude"));
+            this.objects = objects;
         } catch (IOException exception) {
             exception.printStackTrace();
         }
@@ -80,8 +82,10 @@ public abstract class AbstractRegionForSelect<T extends Selectable> extends Titl
         //флаг установлен
         if (newValue && !oldValue) {
             cells.forEach(cell-> cell.set(true));
+            this.objects.forEach(object -> object.setSelected(true));
         }else if (!newValue && oldValue){
             cells.forEach(cell-> cell.set(false));
+            this.objects.forEach(object -> object.setSelected(false));
         }
     }
 }
