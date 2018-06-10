@@ -6,8 +6,8 @@ var markerClusters = [];
 
 function initMap() {
     map = new google.maps.Map(document.getElementById('map'), {
-        center: {lat: 55.76, lng: 37.64},
-        zoom: 8
+        center: {lat: 53.11, lng: 50.07},
+        zoom: 6
     });
     pointsController = new PointsController(map);
     linesController = new LinesController(map);
@@ -18,12 +18,21 @@ function addLine(line){
     linesController.setLineByID(line);
 }
 
+
 function changeLine(line){
     addLine(line);
 }
 
 function deleteLine(lineId){
     linesController.deleteLineById(lineId);
+}
+
+function move(centre){
+    map.panTo(new google.maps.LatLng(centre.get(i).getLatitude(), centre.get(i).getLongitude()));
+}
+
+function setZoom(zoom){
+    map.setZoom(zoom);
 }
 
 function addMarkerGroup(grIdxMarkers, st){

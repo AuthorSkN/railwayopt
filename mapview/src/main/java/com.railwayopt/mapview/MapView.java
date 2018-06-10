@@ -73,6 +73,30 @@ public class MapView extends BorderPane {
     }
 
     /**
+     * Перезагружает карту в заданных координатах и с указанным масштабом
+     * @param centre позиция центра карты
+     * @param zoom коэффициент масштаба карты
+     */
+    public void reloadMap(GeoPoint centre, int zoom){
+        points = new HashMap<>();
+        lines = new HashMap<>();
+        pointGroups = new HashMap<>();
+        lineGroups = new HashMap<>();
+        mapAPI.loadMap();
+        mapAPI.setCentreAndZoom(centre, zoom);
+    }
+
+    /**
+     * Задает координаты центра карты и масштаб
+     * @param centre позиция центра карты
+     * @param zoom коэффициент масштаба карты
+     */
+    public void setCentreAndZoomForMap(GeoPoint centre, int zoom){
+        mapAPI.setCentreAndZoom(centre, zoom);
+    }
+
+
+    /**
      * Создает точку заданного стиля на карте.
      * @param id id точки
      * @param point координаты точки
@@ -103,6 +127,27 @@ public class MapView extends BorderPane {
         MapPoint mapPoint = null;
         if(!points.containsKey(id)) {
             mapPoint = new MapPoint(id, this, point, weight, style);
+            points.put(id, mapPoint);
+            mapAPI.addPoint(mapPoint);
+        }else{
+            //throw new AlreadyExistsMapObjException(point.getClass().toString(), point.getID());
+        }
+        return mapPoint;
+    }
+
+    /**
+     * Создает точку заданного стиля на карте.
+     * @param id id точки
+     * @param point координаты точки
+     * @param weight вес точки
+     * @param style видимость точки
+     * @return объект MapPoint
+     */
+    public MapPoint createMapPoint(int id, String title, GeoPoint point, int weight, MapPointStyle style){
+        MapPoint mapPoint = null;
+        if(!points.containsKey(id)) {
+            mapPoint = new MapPoint(id, this, point, weight, style);
+            mapPoint.setTitle(title);
             points.put(id, mapPoint);
             mapAPI.addPoint(mapPoint);
         }else{

@@ -169,7 +169,7 @@ public class XlsLoader {
             region = currentRow.getCell(regionColumnNum).getStringCellValue();
         }
         //result:
-        Factory factory = new Factory(id, name, longitude, latitude, weight);
+        Factory factory = new Factory(id, name, latitude, longitude, weight);
         factory.setRegion(regionManager.getCorrectRegion(region));
         return factory;
     }
@@ -212,7 +212,7 @@ public class XlsLoader {
             region = currentRow.getCell(regionColumnNum).getStringCellValue();
         }
         //result:s
-        Station stat = new Station(id, name, longitude, lattitude, isLC);
+        Station stat = new Station(id, name, lattitude, longitude, isLC);
         stat.setStationClass(stationClass);
         stat.setRegion(regionManager.getCorrectRegion(region));
         return stat;

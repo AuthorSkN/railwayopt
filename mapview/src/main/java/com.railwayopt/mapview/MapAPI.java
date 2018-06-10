@@ -45,6 +45,8 @@ public abstract class MapAPI {
         map.setMember("controller", handler);
     }
 
+    public abstract void setCentreAndZoom(GeoPoint centre, int zoom);
+
 
     protected JSObject getJSMap(){
         return (JSObject)web.executeScript("window");

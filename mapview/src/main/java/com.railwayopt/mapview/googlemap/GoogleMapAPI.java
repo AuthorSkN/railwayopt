@@ -1,6 +1,7 @@
 package com.railwayopt.mapview.googlemap;
 
 
+import com.railwayopt.mapview.GeoPoint;
 import com.railwayopt.mapview.MapAPI;
 import com.railwayopt.mapview.graphic.MapPolyline;
 import com.railwayopt.mapview.graphic.MapPoint;
@@ -14,6 +15,13 @@ public class GoogleMapAPI extends MapAPI{
     @Override
     protected URL getMapHTMLLocation() {
         return this.getClass().getResource(GOOGLE_MAP_FILE_NAME);
+    }
+
+    @Override
+    public void setCentreAndZoom(GeoPoint centre, int zoom) {
+        JSObject map = getJSMap();
+        map.call("move", centre);
+        map.call("setZoom", zoom);
     }
 
     @Override
