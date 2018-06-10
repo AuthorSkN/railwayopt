@@ -31,7 +31,7 @@ class LinesController {
     deleteLineById(lineId){
         if(lineId in this.lineList){
             this.lineList[lineId].setMap(null);
-            this.lineList[lineId] = null;
+            delete this.lineList[lineId];
         }
     }
 

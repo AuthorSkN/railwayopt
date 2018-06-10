@@ -13,10 +13,11 @@ public class DB {
     private static List<String> regions = new ArrayList<>();
 
     public static void initializer(){
+        Random random = new Random();
         //проекты
         for(int i = 0; i < 10; i++){
             Project project = new Project(i, "Новое имя "+i, "Некоторый проект "+i+", который содержит станции и производства.");
-            project.setDate(i+"-"+(10+i)+"-"+"2018");
+            project.setDate(i+"."+(10+i)+"."+"2018");
             project.setAuthor("Складнев");
             projects.put(i, project);
         }

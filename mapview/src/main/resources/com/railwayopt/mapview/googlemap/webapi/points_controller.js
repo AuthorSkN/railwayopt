@@ -48,7 +48,7 @@ class PointsController {
     deletePointByID(id){
         if(id in this.pointList){
             this.pointList[id].setMap(null);
-            this.pointList[id] = null;
+            delete this.pointList[id];
         }
     }
 

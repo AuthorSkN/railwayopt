@@ -44,7 +44,7 @@ public class SceneManager {
     private static final Size AUTHORIZATION_SCENE_SIZE = new Size(320, 160);
     private static final Size OPTIMAL_LOGISTIC_CENTRE_SCENE_SIZE = new Size(1000, 700);
     private static final Size AS_PTI_SCENE_SIZE = new Size(1100, 700);
-    private static final Size ADD_PROJECT_DIALOG_SIZE = new Size(600, 600);
+    private static final Size ADD_PROJECT_DIALOG_SIZE = new Size(400, 400);
     private static final Size CREATE_SOLUTION_DIALOG_SIZE = new Size(700, 700);
 
     //Заголовки сцен
@@ -124,6 +124,7 @@ public class SceneManager {
             createSolutionDialog.setScene(new Scene(root, ADD_PROJECT_DIALOG_SIZE.width, ADD_PROJECT_DIALOG_SIZE.height));
             controller = fxmlLoader.getController();
             controller.setObjects(factories, stations);
+            controller.setInitialListenrsForDialog();
             createSolutionDialog.setTitle(CREATE_SOLUTION_DIALOG_TITLE);
             createSolutionDialog.initOwner(stage);
             createSolutionDialog.initModality(Modality.APPLICATION_MODAL);
@@ -168,7 +169,7 @@ public class SceneManager {
             addProjectDialog = new Stage();
             controller = fxmlLoader.getController();
             addProjectDialog.setTitle(ADD_PROJECT_DIALOG_TITLE);
-            addProjectDialog.setScene(new Scene(root, CREATE_SOLUTION_DIALOG_SIZE.width, CREATE_SOLUTION_DIALOG_SIZE.height));
+            addProjectDialog.setScene(new Scene(root, ADD_PROJECT_DIALOG_SIZE.width, ADD_PROJECT_DIALOG_SIZE.height));
             addProjectDialog.initOwner(stage);
             addProjectDialog.initModality(Modality.APPLICATION_MODAL);
             addProjectDialog.showAndWait();

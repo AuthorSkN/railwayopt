@@ -25,7 +25,7 @@ public class TestController {
     public void loadMap(){
         mapView.setMapAPI(new GoogleMapAPI());
         mapView.reloadMap();
-        mapView.onLoadedMap(()->mapView.createMapPoint(0, new GeoPoint(60, 37), 4));
+        mapView.onLoadedMap(()->mapView.createMapPoint(333, new GeoPoint(60, 37), 4));
     }
 
     public void showPoints(){
@@ -49,7 +49,7 @@ public class TestController {
             points.add( new GeoPoint(latitude, 60));
             points.add(new GeoPoint(latitude, 65));
             MapPolyline line = mapView.createMapPolyline(id, id / 2 + 1, colors[id], points);
-            line.updateOnMap();
+            /*line.updateOnMap();*/
             latitude--;
         }
     }

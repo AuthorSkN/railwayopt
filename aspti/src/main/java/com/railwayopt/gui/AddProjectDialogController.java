@@ -43,6 +43,7 @@ public class AddProjectDialogController implements Controller {
     private List<Factory> factoriesFromDB;
     private List<Station> stationsFromDB;
     private RegionManager regionManager = new RegionManager();
+    private static Random randomId = new Random();
 
     @Override
     public void initializeScene() {
@@ -74,7 +75,8 @@ public class AddProjectDialogController implements Controller {
     public static Project getNewProject(){
         Project newProject = null;
         if(ok){
-            newProject = new Project(0, name, desc);
+            newProject = new Project(randomId.nextInt(), name, desc);
+            newProject.setAuthor("Складнев");
             newProject.setFactories(new HashSet<>(factories));
             newProject.setStations(new HashSet<>(stations));
         }
