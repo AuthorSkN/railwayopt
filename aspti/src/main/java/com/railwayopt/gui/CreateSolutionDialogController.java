@@ -13,6 +13,7 @@ import com.railwayopt.model.clustering.kmeanspro.KMeansProClustering;
 import com.railwayopt.model.clustering.kmeanspro.KProInitializer;
 import com.railwayopt.model.clustering.kmeanspro.ProjectedCluster;
 import com.railwayopt.model.clustering.kmeanspro.ProjectionPoint;
+import com.railwayopt.model.location.Point;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
@@ -48,6 +49,7 @@ public class CreateSolutionDialogController implements Controller {
     private static int countKNRC;
     private static List<ProjectedCluster> firstLayerClusters;
     private static List<ProjectedCluster> secondLayerClusters;
+    private static HashMap<Integer, List<Integer>> mapKNRCToPareto = new HashMap<>();
 
 
     public void setObjects(Collection<Factory> factories, Collection<Station> stations) {
@@ -144,7 +146,11 @@ public class CreateSolutionDialogController implements Controller {
 
             MapPoint pointKP = mapView.getMapPoint(station.getId());
             pointKP.setWeight(5);
-            pointKP.setStyle(new MapPointStyle(MapPointStyle.SQUARE, "#000", color));
+            if (mapKNRCToPareto.containsValue(pointKP.getId()) ){
+                pointKP.setStyle(new MapPointStyle(MapPointStyle.SQUARE, "#000", color));
+            }else{
+                pointKP.setStyle(new MapPointStyle(MapPointStyle.SQUARE, "#3399ff", color));
+            }
             pointKP.setTitle(pointKP.getTitle() + " (" + cluster.getRealCentre().getX() + " " + cluster.getRealCentre().getY() + ")");
             pointKP.updateOnMap();
         }
@@ -154,6 +160,12 @@ public class CreateSolutionDialogController implements Controller {
             pointKNRC.setWeight(6);
             pointKNRC.setStyle(new MapPointStyle(MapPointStyle.TRIANGLE, "#000", colors[colorsIdx]));
             pointKNRC.updateOnMap();
+            /*if(mapKNRCToPareto.containsKey(pointKNRC.getId())){
+                List<Integer> paretoIds = mapKNRCToPareto.get(pointKNRC.getId());
+                for(Integer id:paretoIds){
+                    MapPoint point = mapView.getMapPoint(id);
+                }
+            }*/
             colorsIdx++;
         }
     }
@@ -172,10 +184,32 @@ public class CreateSolutionDialogController implements Controller {
         startClustering();
     }
 
+    public void getParetoForNKRC(){
+        for(ProjectedCluster cluster:secondLayerClusters){
+            List<Element> elements = cluster.getElements();
+            Collections.sort(elements, new Comparator() {
+                @Override
+                public int compare(Object o1, Object o2) {
+                    Element knrc = cluster.getCentre();
+                    if(knrc.distanceTo((Point) o1) > knrc.distanceTo((Point)o2)) {
+                        return 1;
+                    }else{
+                        return -1;
+                    }
+                }
+            });
+            List list = new ArrayList();
+            elements.forEach((x) -> list.add(x.getId()));
+            mapKNRCToPareto.put(cluster.getCentre().getId(),  list.subList(0, 2));
+        }
+    }
+
     public void startClustering() {
         firstLayerClusters = clusteringFirstLayer();
-        if (countKNRC > 0)
+        if (countKNRC > 0) {
             secondLayerClusters = clusteringSecondLayer();
+            getParetoForNKRC();
+        }
         SceneManager.installMapSceneForSolutionDialog();
     }
 

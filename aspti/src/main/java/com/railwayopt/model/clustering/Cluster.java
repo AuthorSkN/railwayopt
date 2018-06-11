@@ -93,6 +93,10 @@ public class Cluster implements Iterable<Element>, Cloneable {
         return true;
     }
 
+    public List<Element> getElements(){
+        return new ArrayList<>(elementsMap.values());
+    }
+
     @Override
     public int hashCode() {
         return elementsMap.hashCode();
