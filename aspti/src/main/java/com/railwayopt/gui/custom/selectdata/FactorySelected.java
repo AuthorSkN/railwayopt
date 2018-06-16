@@ -16,6 +16,8 @@ public class FactorySelected extends Factory implements Selectable{
         setName(factory.getName());
         setLatitude(factory.getLatitude());
         setLongitude(factory.getLongitude());
+        setX(factory.getX());
+        setY(factory.getY());
         setWeight(factory.getWeight());
         setRegion(factory.getRegion());
     }

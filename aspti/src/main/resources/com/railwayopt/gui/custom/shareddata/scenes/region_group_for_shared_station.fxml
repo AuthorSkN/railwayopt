@@ -16,6 +16,8 @@
                 <TableColumn fx:id="tableColumnLatitude" prefWidth="75.0" text="Широта" />
                 <TableColumn fx:id="tableColumnLongitude" prefWidth="75.0" text="Долгота" />
                 <TableColumn fx:id="tableColumnIsLogCentre" prefWidth="75.0" text="КП" />
+                <TableColumn fx:id="tableColumnX" prefWidth="75.0" text="X" />
+                <TableColumn fx:id="tableColumnY" prefWidth="75.0" text="Y" />
             </columns>
         </TableView>
     </content>

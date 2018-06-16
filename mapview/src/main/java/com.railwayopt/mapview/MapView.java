@@ -95,6 +95,16 @@ public class MapView extends BorderPane {
         mapAPI.setCentreAndZoom(centre, zoom);
     }
 
+    /**
+     * Задает координаты центра карты и масштаб
+     * @param mapPointId id точки карты, к которой необходимо переместится
+     * @param zoom коэффициент масштаба карты
+     */
+    public void setCentreAndZoomForMap(int mapPointId, int zoom){
+        GeoPoint centre = points.get(mapPointId).getCoordinates();
+        setCentreAndZoomForMap(centre, zoom);
+    }
+
 
     /**
      * Создает точку заданного стиля на карте.

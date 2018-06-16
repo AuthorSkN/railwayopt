@@ -29,6 +29,10 @@ public abstract class AbstaractRegionForShared<T extends Numberable> extends Tit
     protected TableColumn<T, Double> tableColumnLatitude;
     @FXML
     protected TableColumn<T, Double> tableColumnLongitude;
+    @FXML
+    protected TableColumn<T, Double> tableColumnX;
+    @FXML
+    protected TableColumn<T, Double> tableColumnY;
 
 
     public AbstaractRegionForShared(String fxmlComponentName, String name){
@@ -45,6 +49,8 @@ public abstract class AbstaractRegionForShared<T extends Numberable> extends Tit
             tableColumnName.setCellValueFactory(new PropertyValueFactory<>("name"));
             tableColumnLatitude.setCellValueFactory(new PropertyValueFactory<>("latitude"));
             tableColumnLongitude.setCellValueFactory(new PropertyValueFactory<>("longitude"));
+            tableColumnX.setCellValueFactory(new PropertyValueFactory<>("x"));
+            tableColumnY.setCellValueFactory(new PropertyValueFactory<>("y"));
         } catch (IOException exception) {
             exception.printStackTrace();
         }

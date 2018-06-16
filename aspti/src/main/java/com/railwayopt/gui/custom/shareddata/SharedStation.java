@@ -12,7 +12,7 @@ public class SharedStation extends Station implements Numberable{
     private int number;
 
     public SharedStation(Station station){
-        super(station.getId(), station.getName(), station.getLatitude(), station.getLongitude());
+        super(station.getId(), station.getName(), station.getLatitude(), station.getLongitude(), station.getX(), station.getY());
         this.setRegion(station.getRegion());
         this.setExistLogisticCentre(station.isExistLogisticCentre());
     }

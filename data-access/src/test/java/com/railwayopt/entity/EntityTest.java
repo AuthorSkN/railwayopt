@@ -27,7 +27,7 @@ public class EntityTest {
 
     @Test
     public void getEntityTest(){
-        Station station = new Station(0, "новая станция", 34.5, 12.7, false);
+        Station station = new Station(0, "новая станция", 34.5, 12.7, 4345.12, 5643.32, false);
         station.setRegion(new Region(2));
         new DAORailwayImpl().addInfrastructure(station);
     }

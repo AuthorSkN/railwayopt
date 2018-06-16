@@ -17,6 +17,8 @@
                         <TableColumn fx:id="tableColumnLongitude" prefWidth="75.0" text="Долгота" />
                         <TableColumn fx:id="tableColumnFullWeight" prefWidth="75.0" text="Объем производства" />
                         <TableColumn fx:id="tableColumnWeight" prefWidth="75.0" text="ОКПП" />
+                        <TableColumn fx:id="tableColumnX" prefWidth="75.0" text="X" />
+                        <TableColumn fx:id="tableColumnY" prefWidth="75.0" text="Y" />
                     </columns>
                 </TableView>
     </content>

@@ -78,8 +78,8 @@ public class Point implements Cloneable{
 
     public void setCoorinatesByLatLon(double latitude, double longitude){
         UTMCoord coords = UTMCoord.fromLatLon(Angle.fromDegreesLatitude(latitude), Angle.fromDegreesLongitude(longitude));
-        this.x = /*coords.getEasting();*/ longitude;
-        this.y = /*coords.getNorthing();*/ latitude;
+        this.x = coords.getEasting();
+        this.y = coords.getNorthing();
         this.zone = coords.getZone();
     }
 

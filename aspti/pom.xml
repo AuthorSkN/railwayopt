@@ -22,7 +22,7 @@
         <dependency>
             <groupId>railway</groupId>
             <artifactId>mapview</artifactId>
-            <version>1.2.0.0</version>
+            <version>1.3.2.0</version>
         </dependency>
     </dependencies>
 

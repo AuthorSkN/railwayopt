@@ -24,15 +24,15 @@ public class Station implements Infrastructable{
 
     public Station(){}
 
-    public Station(int id, String name, Double latitude, Double longitude) {
+    public Station(int id, String name, Double latitude, Double longitude, Double x, Double y) {
         this.id = id;
-        infrastructure = new Infrastructure(id, name, latitude, longitude, true);
+        infrastructure = new Infrastructure(id, name, latitude, longitude, x, y, true);
     }
 
-    public Station(int id, String name, Double latitude, Double longitude, boolean existLogisticCentre) {
+    public Station(int id, String name, Double latitude, Double longitude, Double x, Double y, boolean existLogisticCentre) {
         this.id  = id;
         this.existLogisticCentre = existLogisticCentre;
-        infrastructure = new Infrastructure(id, name, latitude, longitude, true);
+        infrastructure = new Infrastructure(id, name, latitude, longitude,x, y, true);
     }
 
     public Boolean isExistLogisticCentre() {
@@ -111,14 +111,25 @@ public class Station implements Infrastructable{
     }
 
     @Override
-    public String getDescr() {
-        return infrastructure.getDescr();
+    public Double getX() {
+        return infrastructure.getX();
     }
 
     @Override
-    public void setDescr(String descr) {
-        infrastructure.setDescr(descr);
+    public void setX(Double x) {
+        infrastructure.setX(x);
     }
+
+    @Override
+    public Double getY() {
+        return infrastructure.getY();
+    }
+
+    @Override
+    public void setY(Double y) {
+        infrastructure.setY(y);
+    }
+
 
     public Infrastructure getAndDeleteInfrastructure(){
         Infrastructure result = this.infrastructure;

@@ -28,7 +28,7 @@ function deleteLine(lineId){
 }
 
 function move(centre){
-    map.panTo(new google.maps.LatLng(centre.get(i).getLatitude(), centre.get(i).getLongitude()));
+    map.panTo(new google.maps.LatLng(centre.getLatitude(), centre.getLongitude()));
 }
 
 function setZoom(zoom){

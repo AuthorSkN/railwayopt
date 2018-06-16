@@ -24,9 +24,13 @@ public interface Infrastructable {
 
     void setRegion(Region region);
 
-    String getDescr();
+    Double getX();
 
-    void setDescr(String descr);
+    void setX(Double x);
+
+    Double getY();
+
+    void setY(Double y);
 
     Infrastructure getAndDeleteInfrastructure();
 }

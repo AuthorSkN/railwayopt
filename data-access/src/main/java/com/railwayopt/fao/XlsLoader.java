@@ -67,7 +67,10 @@ public class XlsLoader {
     private int classColumnNum = -1;
     private int fullWeightColumnNum = -1;
     private int cargoesColumnName = -1;
-    private int typeColumnName = -1;
+    private int typeColumnNum = -1;
+
+    private int xColumnNum = -1;
+    private int yColumnNum = -1;
     private RegionManager regionManager = new RegionManager();
 
     /**
@@ -127,7 +130,9 @@ public class XlsLoader {
                 case "region": regionColumnNum = i; break;
                 case "class": classColumnNum = i; break;
                 case "cargoes": cargoesColumnName = i; break;
-                case "type": typeColumnName = i; break;
+                case "type": typeColumnNum = i; break;
+                case "x":xColumnNum = i; break;
+                case "y":yColumnNum = i; break;
                 case "": break;
                 default:
                     throw new IllegalArgumentException("Unknown token: \"" + token + "\" from string \"" + cellString + "\" from cell " + currentCell.toString());
@@ -168,8 +173,17 @@ public class XlsLoader {
         if (regionColumnNum != -1) {
             region = currentRow.getCell(regionColumnNum).getStringCellValue();
         }
+        //Coords
+        double x = 0;
+        double y = 0;
+        if (xColumnNum != -1){
+            x = currentRow.getCell(xColumnNum).getNumericCellValue();
+        }
+        if (yColumnNum != -1){
+            y = currentRow.getCell(yColumnNum).getNumericCellValue();
+        }
         //result:
-        Factory factory = new Factory(id, name, latitude, longitude, weight);
+        Factory factory = new Factory(id, name, latitude, longitude, x, y, weight);
         factory.setRegion(regionManager.getCorrectRegion(region));
         return factory;
     }
@@ -205,6 +219,15 @@ public class XlsLoader {
         if (classColumnNum != -1) {
             stationClass = (int)currentRow.getCell(classColumnNum).getNumericCellValue();
         }
+        //Coords
+        double x = 0;
+        double y = 0;
+        if (xColumnNum != -1){
+            x = currentRow.getCell(xColumnNum).getNumericCellValue();
+        }
+        if (yColumnNum != -1){
+            y = currentRow.getCell(yColumnNum).getNumericCellValue();
+        }
 
         //region
         String region = "";
@@ -212,7 +235,7 @@ public class XlsLoader {
             region = currentRow.getCell(regionColumnNum).getStringCellValue();
         }
         //result:s
-        Station stat = new Station(id, name, lattitude, longitude, isLC);
+        Station stat = new Station(id, name, lattitude, longitude,x, y, isLC);
         stat.setStationClass(stationClass);
         stat.setRegion(regionManager.getCorrectRegion(region));
         return stat;

@@ -11,7 +11,8 @@ public class SharedFactory extends Factory implements Numberable{
     private int number;
 
     public SharedFactory(Factory factory){
-        super(factory.getId(), factory.getName(), factory.getLatitude(), factory.getLongitude(), factory.getWeight());
+        super(factory.getId(), factory.getName(), factory.getLatitude(), factory.getLongitude(),
+                                factory.getX(),factory.getY(),  factory.getWeight());
         this.setRegion(factory.getRegion());
         this.setCargoes(factory.getCargoes());
         this.setFullWeight(factory.getFullWeight());

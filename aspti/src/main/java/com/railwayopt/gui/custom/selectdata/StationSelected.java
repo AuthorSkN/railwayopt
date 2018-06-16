@@ -9,7 +9,8 @@ public class StationSelected extends Station implements Selectable{
     private boolean selected = false;
 
     public StationSelected(Station station){
-        super(station.getId(), station.getName(), station.getLatitude(), station.getLongitude(), station.isExistLogisticCentre());
+        super(station.getId(), station.getName(), station.getLatitude(), station.getLongitude(),
+                        station.getX(), station.getY(), station.isExistLogisticCentre());
         this.setRegion(station.getRegion());
 }
 

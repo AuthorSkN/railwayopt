@@ -27,7 +27,7 @@ public class DB {
         for(int i = 0; i < 20; i++){
             longitude += i;
             latitude -= i;
-            Factory factory = new Factory(i, "Производство из БД "+i, latitude, longitude, 1.0/(i+1));
+            Factory factory = new Factory(i, "Производство из БД "+i, latitude, longitude, 0.0, 0.0, 1.0/(i+1));
             if(i % 2 == 0){
                 factory.setRegion(new Region(0, "самарская область"));
             }else{
@@ -45,7 +45,7 @@ public class DB {
         for(int i = 0; i < 10; i++){
             longitude += i;
             latitude -= i;
-            Station station = new Station(i, "Станция из БД "+i, latitude, longitude);
+            Station station = new Station(i, "Станция из БД "+i, latitude, 0.0, 0.0, longitude);
             if(i % 2 == 0){
                 station.setRegion(new Region(0, "самарская область"));
             }else{

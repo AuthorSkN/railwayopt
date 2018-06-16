@@ -18,8 +18,10 @@ public class Infrastructure {
     private Double longitude;
     @Column(name="is_station")
     private Boolean isStation;
-    @Column(name="descr")
-    private String descr;
+    @Column(name="x_coord")
+    private Double x;
+    @Column(name="y_coord")
+    private Double y;
     @ManyToOne
     @JoinColumn(name = "region_id")
     private Region region;
@@ -31,21 +33,25 @@ public class Infrastructure {
         this.isStation = isStation;
     }
 
-    public Infrastructure(int id, String name, Double latitude, Double longitude, boolean isStation) {
+    public Infrastructure(int id, String name, Double latitude, Double longitude, Double x, Double y, boolean isStation) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.isStation = isStation;
+        this.x = x;
+        this.y = y;
     }
 
-    public Infrastructure(Integer id, String name, Double latitude, Double longitude, Region region, boolean isStation) {
+    public Infrastructure(Integer id, String name, Double latitude, Double longitude, Double x, Double y, Region region, boolean isStation) {
         this.id = id;
         this.name = name;
         this.latitude = latitude;
         this.longitude = longitude;
         this.region = region;
         this.isStation = isStation;
+        this.x = x;
+        this.y = y;
     }
 
     public Integer getId() {
@@ -90,11 +96,23 @@ public class Infrastructure {
         this.region = region;
     }
 
-    public String getDescr() {
-        return descr;
+    public Double getX() {
+        return x;
     }
 
-    public void setDescr(String descr) {
-        this.descr = descr;
+    public void setX(Double x) {
+        this.x = x;
     }
+
+
+    public Double getY() {
+        return y;
+    }
+
+    public void setY(Double y) {
+        this.y = y;
+    }
+
+
+
 }

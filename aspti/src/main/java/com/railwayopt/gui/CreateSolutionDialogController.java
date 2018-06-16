@@ -18,17 +18,13 @@ import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
 import javafx.fxml.FXML;
 import javafx.scene.Node;
-import javafx.scene.control.CheckBox;
-import javafx.scene.control.ListView;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
+import javafx.scene.layout.VBox;
 
 import java.util.*;
 
 public class CreateSolutionDialogController implements Controller {
 
-    @FXML
-    private TextField textName;
     @FXML
     private TextArea textDesc;
     @FXML
@@ -40,7 +36,11 @@ public class CreateSolutionDialogController implements Controller {
     @FXML
     private ListView<String> listViewSelectingKNRC;
     @FXML
+    private VBox vboxMCO;
+    @FXML
     private CheckBox checkBoxoptStructure;
+    @FXML
+    private Button buttonChangeKNRC;
 
     private static Map<Integer, Factory> projectFactories = new HashMap<>();
     private static Map<Integer, Station> projectStations = new HashMap<>();
@@ -50,6 +50,7 @@ public class CreateSolutionDialogController implements Controller {
     private static List<ProjectedCluster> firstLayerClusters;
     private static List<ProjectedCluster> secondLayerClusters;
     private static HashMap<Integer, List<Integer>> mapKNRCToPareto = new HashMap<>();
+    private int knrcIdx = 0;
 
 
     public void setObjects(Collection<Factory> factories, Collection<Station> stations) {
@@ -146,11 +147,7 @@ public class CreateSolutionDialogController implements Controller {
 
             MapPoint pointKP = mapView.getMapPoint(station.getId());
             pointKP.setWeight(5);
-            if (mapKNRCToPareto.containsValue(pointKP.getId()) ){
-                pointKP.setStyle(new MapPointStyle(MapPointStyle.SQUARE, "#000", color));
-            }else{
-                pointKP.setStyle(new MapPointStyle(MapPointStyle.SQUARE, "#3399ff", color));
-            }
+            pointKP.setStyle(new MapPointStyle(MapPointStyle.SQUARE, "#000", color));
             pointKP.setTitle(pointKP.getTitle() + " (" + cluster.getRealCentre().getX() + " " + cluster.getRealCentre().getY() + ")");
             pointKP.updateOnMap();
         }
@@ -160,14 +157,29 @@ public class CreateSolutionDialogController implements Controller {
             pointKNRC.setWeight(6);
             pointKNRC.setStyle(new MapPointStyle(MapPointStyle.TRIANGLE, "#000", colors[colorsIdx]));
             pointKNRC.updateOnMap();
-            /*if(mapKNRCToPareto.containsKey(pointKNRC.getId())){
-                List<Integer> paretoIds = mapKNRCToPareto.get(pointKNRC.getId());
-                for(Integer id:paretoIds){
-                    MapPoint point = mapView.getMapPoint(id);
-                }
-            }*/
             colorsIdx++;
         }
+    }
+
+    @FXML
+    public void nextKNRC(){
+        if(knrcIdx >= secondLayerClusters.size()) {
+            knrcIdx = 0;
+        }
+        int knrcId = secondLayerClusters.get(knrcIdx).getCentre().getId();
+        mapView.setCentreAndZoomForMap(knrcId, 8);
+        MapPoint pointKNRC = mapView.getMapPoint(knrcId);
+        pointKNRC.getStyle().setColorContour("#1ca027");
+        pointKNRC.updateOnMap();
+        List<Integer> paretoSet = mapKNRCToPareto.get(knrcId);
+        if(paretoSet != null) {
+            for (Integer kpId : paretoSet) {
+                MapPoint pointParetoKP = mapView.getMapPoint(kpId);
+                pointParetoKP.getStyle().setColorContour("#55b2e8");
+                pointParetoKP.updateOnMap();
+            }
+        }
+        knrcIdx++;
     }
 
 
@@ -182,6 +194,13 @@ public class CreateSolutionDialogController implements Controller {
             countKNRC = Integer.parseInt(textCountKNRC.getText());
         }
         startClustering();
+    }
+
+    @FXML
+    public void changeKNRC(){
+        vboxMCO.setVisible(true);
+        buttonChangeKNRC.setVisible(false);
+        mapView.setCentreAndZoomForMap(secondLayerClusters.get(0).getCentre().getId(), 8);
     }
 
     public void getParetoForNKRC(){
@@ -200,7 +219,9 @@ public class CreateSolutionDialogController implements Controller {
             });
             List list = new ArrayList();
             elements.forEach((x) -> list.add(x.getId()));
-            mapKNRCToPareto.put(cluster.getCentre().getId(),  list.subList(0, 2));
+            if (elements.size() > 1) {
+                mapKNRCToPareto.put(cluster.getCentre().getId(), list.subList(0, 2));
+            }
         }
     }
 
@@ -221,7 +242,8 @@ public class CreateSolutionDialogController implements Controller {
         List<ProjectionPoint> projectionPoints = new ArrayList<>(projectStations.size());
         for (Station station : projectStations.values()) {
             ProjectionPoint point = new ProjectionPoint(station.getId(), false);
-            point.setCoorinatesByLatLon(station.getLatitude(), station.getLongitude());
+            point.setX(station.getX());
+            point.setY(station.getY());
             projectionPoints.add(point);
         }
         clustering.setProjectionPoints(projectionPoints);
@@ -229,7 +251,8 @@ public class CreateSolutionDialogController implements Controller {
         for (Factory factory : projectFactories.values()) {
             Element element = new Element(factory.getId());
             element.setWeight(factory.getWeight());
-            element.setCoorinatesByLatLon(factory.getLatitude(), factory.getLongitude());
+            element.setX(factory.getX());
+            element.setY(factory.getY());
             elements.add(element);
         }
         clustering.setElements(elements);
@@ -244,7 +267,8 @@ public class CreateSolutionDialogController implements Controller {
         List<ProjectionPoint> projectionPoints = new ArrayList<>(projectStations.size());
         for (Station station : projectStations.values()) {
             ProjectionPoint point = new ProjectionPoint(station.getId(), false);
-            point.setCoorinatesByLatLon(station.getLatitude(), station.getLongitude());
+            point.setX(station.getX());
+            point.setY(station.getY());
             projectionPoints.add(point);
         }
         clustering.setProjectionPoints(projectionPoints);

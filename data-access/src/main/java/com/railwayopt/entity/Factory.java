@@ -30,15 +30,15 @@ public class Factory implements Infrastructable{
         infrastructure.setId(id);
     }
 
-    public Factory(Integer id, String name, Double latitude, Double longitude) {
+    public Factory(Integer id, String name, Double latitude, Double longitude, Double x, Double y) {
         this.id = id;
-        infrastructure = new Infrastructure(id, name, latitude, longitude, false);
+        infrastructure = new Infrastructure(id, name, latitude, longitude,x, y, false);
     }
 
-    public Factory(Integer id, String name, Double latitude, Double longitude, Double weight){
+    public Factory(Integer id, String name, Double latitude, Double longitude, Double x, Double y,  Double weight){
         this.id = id;
         this.weight = weight;
-        infrastructure = new Infrastructure(id, name, latitude, longitude, false);
+        infrastructure = new Infrastructure(id, name, latitude, longitude, x, y, false);
     }
 
     public Double getWeight() {
@@ -118,14 +118,25 @@ public class Factory implements Infrastructable{
     }
 
     @Override
-    public String getDescr() {
-        return infrastructure.getDescr();
+    public Double getX() {
+        return infrastructure.getX();
     }
 
     @Override
-    public void setDescr(String descr) {
-        infrastructure.setDescr(descr);
+    public void setX(Double x) {
+        this.infrastructure.setX(x);
     }
+
+    @Override
+    public Double getY() {
+        return infrastructure.getY();
+    }
+
+    @Override
+    public void setY(Double y) {
+        infrastructure.setY(y);
+    }
+
 
     public Infrastructure getAndDeleteInfrastructure(){
         Infrastructure result = this.infrastructure;
