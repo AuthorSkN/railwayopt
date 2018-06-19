@@ -6,9 +6,7 @@
 <?import javafx.scene.control.Label?>
 <?import javafx.scene.control.ListView?>
 <?import javafx.scene.control.SplitPane?>
-<?import javafx.scene.control.TextField?>
 <?import javafx.scene.layout.AnchorPane?>
-<?import javafx.scene.layout.HBox?>
 <?import javafx.scene.layout.VBox?>
 
 <AnchorPane prefHeight="600.0" prefWidth="1000.0" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1" fx:controller="com.railwayopt.gui.CreateSolutionDialogController">
@@ -22,45 +20,33 @@
             </AnchorPane>
           <AnchorPane minHeight="0.0" minWidth="0.0" prefHeight="160.0" prefWidth="100.0">
                <children>
-                  <VBox fx:id="vboxMCO" prefHeight="200.0" prefWidth="100.0" visible="false" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
+                  <VBox fx:id="vboxMCO" prefHeight="200.0" prefWidth="100.0" AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="0.0" AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                      <children>
                         <Label text="Варианты:">
                            <VBox.margin>
                               <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
                            </VBox.margin></Label>
-                        <ListView fx:id="listViewSelectingKNRC" prefHeight="150.0" prefWidth="200.0">
+                        <ListView fx:id="listViewSelectingKNRC" prefHeight="100.0" prefWidth="200.0">
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin></ListView>
-                        <HBox prefHeight="100.0" prefWidth="200.0">
-                           <children>
-                              <Label text="Погрешность, %:" />
-                              <TextField prefWidth="40.0" text="3">
-                                 <HBox.margin>
-                                    <Insets left="10.0" />
-                                 </HBox.margin>
-                              </TextField>
-                           </children>
-                        </HBox>
-                        <Label text="Общие затраты на строительство:">
+                        <Button fx:id="buttonScalarization" mnemonicParsing="false" text="Найти лучшую">
                            <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
-                        </Label>
-                        <Label text="71 734 123 903 р.">
-                           <VBox.margin>
-                              <Insets bottom="5.0" left="5.0" right="5.0" top="5.0" />
-                           </VBox.margin>
-                        </Label>
+                        </Button>
                         <Button mnemonicParsing="false" onAction="#nextKNRC" text="Далее  -&gt;">
                            <VBox.margin>
-                              <Insets bottom="15.0" left="15.0" right="15.0" top="15.0" />
+                              <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
                         </Button>
                      </children>
                   </VBox>
+                  <Label text="Общие затраты:" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" />
+                  <Label fx:id="textEconomCommonCriterion" text="71 734 123 903 р." AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" />
+                  <Button fx:id="buttonRecalculateClustering" mnemonicParsing="false" onAction="#recalculateClustering" prefHeight="45.0" text="Повторить кластеризацию" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
                   <Button mnemonicParsing="false" text="Принять" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
-                  <Button fx:id="buttonChangeKNRC" mnemonicParsing="false" onAction="#changeKNRC" text="Изменить КНРЦ" AnchorPane.bottomAnchor="60.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
+                  <Button fx:id="buttonChangeKNRC" mnemonicParsing="false" onAction="#changeKNRC" text="Изменить КНРЦ" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
                </children>
             </AnchorPane>
         </items>

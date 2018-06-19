@@ -180,6 +180,7 @@ public class MapView extends BorderPane {
      * @param pointId id точки на карте
      */
     public void deleteMapPoint(int pointId){
+        points.remove(pointId);
         mapAPI.deletePoint(pointId);
     }
 
@@ -237,6 +238,7 @@ public class MapView extends BorderPane {
      * @param lineId id линии на карте
      */
     public void deleteMapPolyline(int lineId){
+        lines.remove(lineId);
         mapAPI.deleteLine(lineId);
     }
 

@@ -41,6 +41,10 @@ public class Cluster implements Iterable<Element>, Cloneable {
         elementsMap.put(element.getId(), element);
     }
 
+    public Element removeElementById(int elementId){
+        return elementsMap.remove(elementId);
+    }
+
     public Point getRealCentre(){
         double xCentre = 0;
         double yCentre = 0;

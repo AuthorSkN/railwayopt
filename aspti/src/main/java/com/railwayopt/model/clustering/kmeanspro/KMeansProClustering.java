@@ -77,8 +77,20 @@ public class KMeansProClustering implements Clustering {
             }
 
             //Цикл оптимизации
+/*            int counterIteration = 1;
+            double criterion = 0.0;
+            ClusteringAnalizer analizer = new ClusteringAnalizer();
+            double firstFall = 0.0;*/
+
             List<ProjectedCluster> prevClusters = new LinkedList<>();
             while (!isEndOptimization(prevClusters, clusters)) {
+                /*criterion = analizer.getSumDistanceForClustering(clusters);
+                if (counterIteration == 1){
+                    firstFall = criterion;
+                }else if (counterIteration == 2){
+                    firstFall -= criterion;
+                }
+                System.out.println("итерация:"+counterIteration+" сумма расстояний:"+criterion);*/
                 //сохранение предыдущей итерации
                 prevClusters.clear();
                 for (ProjectedCluster cluster : clusters) {
@@ -98,7 +110,9 @@ public class KMeansProClustering implements Clustering {
                     Cluster nearestCluster = searchNearestCluster(element, clusters);
                     nearestCluster.addElement(element);
                 }
+                /*counterIteration++;*/
             }
+           /* System.out.println("Падение после первой итерации:"+firstFall);*/
         }catch (Exception exc){
             exc.printStackTrace();
         }
@@ -107,12 +121,12 @@ public class KMeansProClustering implements Clustering {
     }
 
 
-    public Cluster searchNearestCluster(Element element, List<? extends Cluster> clusters){
+    public static Cluster searchNearestCluster(Element element, List<? extends Cluster> clusters){
         Cluster nearestCluster = null;
         double nearestDistance = Double.MAX_VALUE;
         for(Cluster cluster: clusters){
             double distance = element.distanceTo(cluster.getCentre());
-            if(distance < nearestDistance){
+            if(distance < nearestDistance) {
                 nearestCluster = cluster;
                 nearestDistance = distance;
             }

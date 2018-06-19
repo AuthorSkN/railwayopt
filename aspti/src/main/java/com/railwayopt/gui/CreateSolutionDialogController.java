@@ -2,25 +2,31 @@ package com.railwayopt.gui;
 
 import com.railwayopt.entity.Factory;
 import com.railwayopt.entity.Station;
-import com.railwayopt.gui.custom.selectdata.RegionGroupForSelectStation;
 import com.railwayopt.mapview.GeoPoint;
 import com.railwayopt.mapview.MapView;
 import com.railwayopt.mapview.googlemap.GoogleMapAPI;
 import com.railwayopt.mapview.graphic.MapPoint;
 import com.railwayopt.mapview.graphic.MapPointStyle;
+import com.railwayopt.mapview.graphic.MapPolyline;
+import com.railwayopt.model.clustering.Cluster;
+import com.railwayopt.model.clustering.ClusteringAnalizer;
 import com.railwayopt.model.clustering.Element;
 import com.railwayopt.model.clustering.kmeanspro.KMeansProClustering;
 import com.railwayopt.model.clustering.kmeanspro.KProInitializer;
 import com.railwayopt.model.clustering.kmeanspro.ProjectedCluster;
 import com.railwayopt.model.clustering.kmeanspro.ProjectionPoint;
 import com.railwayopt.model.location.Point;
+import javafx.beans.Observable;
+import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
+import javafx.collections.ObservableArray;
+import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
-import javafx.scene.Node;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
+import java.math.BigInteger;
 import java.util.*;
 
 public class CreateSolutionDialogController implements Controller {
@@ -30,7 +36,13 @@ public class CreateSolutionDialogController implements Controller {
     @FXML
     private TextField textCountKP;
     @FXML
+    private  TextField textCostKP;
+    @FXML
+    private TextField textCostKNRC;
+    @FXML
     private TextField textCountKNRC;
+    @FXML
+    private TextField textTariff;
     @FXML
     private MapView mapView;
     @FXML
@@ -41,17 +53,31 @@ public class CreateSolutionDialogController implements Controller {
     private CheckBox checkBoxoptStructure;
     @FXML
     private Button buttonChangeKNRC;
+    @FXML
+    private Button buttonScalarization;
+    @FXML
+    private Button buttonRecalculateClustering;
+    @FXML
+    private Label textEconomCommonCriterion;
 
     private static Map<Integer, Factory> projectFactories = new HashMap<>();
     private static Map<Integer, Station> projectStations = new HashMap<>();
     private static String desc;
     private static int countKP;
     private static int countKNRC;
+    private static double tariff;
+    private static double costBuildKP;
+    private static double costBuildKNRC;
     private static List<ProjectedCluster> firstLayerClusters;
     private static List<ProjectedCluster> secondLayerClusters;
     private static HashMap<Integer, List<Integer>> mapKNRCToPareto = new HashMap<>();
     private int knrcIdx = 0;
+    private ClusteringAnalizer analizer = new ClusteringAnalizer();
 
+
+    private String econommicFormat(double criterion){
+        return String.format(Locale.FRANCE, "%013f", criterion);
+    }
 
     public void setObjects(Collection<Factory> factories, Collection<Station> stations) {
         factories.forEach(factory -> projectFactories.put(factory.getId(), factory));
@@ -84,7 +110,29 @@ public class CreateSolutionDialogController implements Controller {
                 showBothLayer();
             }
         });
-        listViewSelectingKNRC.setItems(FXCollections.observableArrayList("Востание", "Круторожино", "Зелецино"));
+
+        double commonEconomCriterion = analizer.getEconomCriterionByParameters(firstLayerClusters, tariff, costBuildKP)
+                                + analizer.getEconomCriterionByParameters(secondLayerClusters, tariff, costBuildKNRC);
+        textEconomCommonCriterion.setText(econommicFormat(commonEconomCriterion));
+        listViewSelectingKNRC.getSelectionModel().selectedItemProperty()
+                .addListener((observable, oldValue, newValue) -> {
+                    selectNewKNRC(observable, newValue);
+                });
+    }
+
+    @FXML
+    public void recalculateClustering(){
+        mapView.deleteAllPoint();
+        mapView.deleteAllLines();
+        startClustering();
+        double commonEconomCriterion = analizer.getEconomCriterionByParameters(firstLayerClusters, tariff, costBuildKP)
+                + analizer.getEconomCriterionByParameters(secondLayerClusters, tariff, costBuildKNRC);
+        textEconomCommonCriterion.setText(Double.toString(commonEconomCriterion));
+        if (countKNRC == 0) {
+            showOneLayer();
+        } else {
+            showBothLayer();
+        }
     }
 
     public void showOneLayer() {
@@ -101,7 +149,6 @@ public class CreateSolutionDialogController implements Controller {
                 mapView.createMapPoint(factory.getId(), new GeoPoint(factory.getLatitude(), factory.getLongitude()),
                         3, new MapPointStyle(MapPointStyle.CIRCLE, "#000", colors[colorsIdx]));
             }
-
             mapView.createMapPoint(station.getId(), new GeoPoint(station.getLatitude(), station.getLongitude()), 5,
                     new MapPointStyle(MapPointStyle.SQUARE, "#000", colors[colorsIdx]));
             colorsIdx++;
@@ -163,29 +210,143 @@ public class CreateSolutionDialogController implements Controller {
 
     @FXML
     public void nextKNRC(){
+        listViewSelectingKNRC.getSelectionModel().select(-1);
+        int knrcId = secondLayerClusters.get(knrcIdx).getCentre().getId();
+        showNextKNRC(knrcId, "#000", "#000");
+        knrcIdx++;
         if(knrcIdx >= secondLayerClusters.size()) {
             knrcIdx = 0;
         }
-        int knrcId = secondLayerClusters.get(knrcIdx).getCentre().getId();
+        knrcId = secondLayerClusters.get(knrcIdx).getCentre().getId();
         mapView.setCentreAndZoomForMap(knrcId, 8);
+        showNextKNRC(knrcId, "#1ca027", "#55b2e8");
+    }
+
+    private void selectNewKNRC(ObservableValue<? extends String> observable, String knrcName){
+        if (knrcName == null)
+            return;
+        Map<Integer, ProjectedCluster> mapSecondLayer = new HashMap<>();
+        for(ProjectedCluster cluster: secondLayerClusters){
+            mapSecondLayer.put(cluster.getCentre().getId(), cluster);
+        }
+        Map<Integer, ProjectedCluster> mapFirstLayer = new HashMap<>();
+        for(ProjectedCluster cluster: firstLayerClusters){
+            mapFirstLayer.put(cluster.getCentre().getId(), cluster);
+        }
+        Station selectStation = null;
+        for(Station station: projectStations.values()){
+            if (knrcName.equals(station.getName())) {
+                selectStation = station;
+                break;
+            }
+        }
+        //Определение элементов, которые нужно перераспределить
+        ProjectedCluster thisCluster = secondLayerClusters.get(knrcIdx);
+        List<Element> recalcElements = new ArrayList<>();
+        List<ProjectedCluster> recalcClusters = new ArrayList<>();
+        for(Element element:thisCluster){
+            ProjectedCluster recalcCluster = mapFirstLayer.get(element.getId());
+            recalcElements.addAll(recalcCluster.getElements());
+        }
+        //Перераспределение центров на втором уровне
+        for(Element element: thisCluster){
+            mapView.deleteMapPolyline(element.getId());
+        }
+        Integer oldKNRCId = thisCluster.getCentre().getId();
+        ProjectedCluster newCentreCluster = mapFirstLayer.get(selectStation.getId());
+        firstLayerClusters.remove(newCentreCluster);
+        List<Integer> thisParetoIds = mapKNRCToPareto.remove(thisCluster.getCentre().getId());
+        Element newCentre = thisCluster.removeElementById(selectStation.getId());
+        mapKNRCToPareto.put(newCentre.getId(), thisParetoIds);
+        thisCluster.addElement(thisCluster.getCentre());
+        firstLayerClusters.add(new ProjectedCluster(new ProjectionPoint(
+                                                        thisCluster.getCentre().getId(),
+                                                        thisCluster.getCentre().getX(),
+                                                        thisCluster.getCentre().getY()
+        )));
+        thisCluster.setCentre(mapFirstLayer.get(newCentre.getId()).getCentre());
+
+        for(ProjectedCluster cluster: secondLayerClusters){
+            mapSecondLayer.put(cluster.getCentre().getId(), cluster);
+        }
+        for(ProjectedCluster cluster: firstLayerClusters){
+            mapFirstLayer.put(cluster.getCentre().getId(), cluster);
+        }
+        //Перераспределение елементов на первом уровне
+        List<Integer> kpIds = new ArrayList<>();
+        thisCluster.getElements().forEach(element -> kpIds.add(element.getId()));
+        for(Element element : thisCluster){
+            ProjectedCluster recalcCluster = mapFirstLayer.get(element.getId());
+            recalcClusters.add(recalcCluster);
+        }
+        for(Element element: recalcElements){
+            Cluster searchCluster = KMeansProClustering.searchNearestCluster(element, recalcClusters);
+            searchCluster.addElement(element);
+        }
+        //Преобразвание графической части
+        for(ProjectedCluster newCluster: recalcClusters){
+            ProjectionPoint centre = newCluster.getCentre();
+            for(Element element: newCluster){
+                MapPolyline line = mapView.getMapPolyline(element.getId());
+                List<GeoPoint> points = new ArrayList<>();
+                points.add(new GeoPoint(projectFactories.get(element.getId()).getLatitude(), projectFactories.get(element.getId()).getLongitude()));
+                points.add(new GeoPoint(projectStations.get(centre.getId()).getLatitude(), projectStations.get(centre.getId()).getLongitude()));
+
+                line.setPoints(points);
+                line.updateOnMap();
+            }
+        }
+        MapPoint newKNRCMapPoint = mapView.getMapPoint(newCentre.getId());
+        newKNRCMapPoint.getStyle().setColorContour("#1ca027");
+        newKNRCMapPoint.getStyle().setShape(MapPointStyle.TRIANGLE);
+        newKNRCMapPoint.updateOnMap();
+        for(Element element: thisCluster){
+            ProjectionPoint centre = thisCluster.getCentre();
+            List<GeoPoint> points = new ArrayList<>();
+            points.add(new GeoPoint(projectStations.get(element.getId()).getLatitude(), projectStations.get(element.getId()).getLongitude()));
+            points.add(new GeoPoint(projectStations.get(centre.getId()).getLatitude(), projectStations.get(centre.getId()).getLongitude()));
+            String color = mapView.getMapPoint(centre.getId()).getStyle().getColorFill();
+            mapView.createMapPolyline(element.getId(), 2, color, points);
+            MapPoint kpMapPoint = mapView.getMapPoint(element.getId());
+            kpMapPoint.getStyle().setShape(MapPointStyle.SQUARE);
+            if (mapKNRCToPareto.get(newCentre.getId()).contains(kpMapPoint.getId())||
+                    (kpMapPoint.getId() == oldKNRCId))
+            {
+                newKNRCMapPoint.getStyle().setColorContour("#55b2e8");
+            }
+            kpMapPoint.updateOnMap();
+        }
+        //Перерасчет общих затрат
+        double commonEconomCriterion = analizer.getEconomCriterionByParameters(firstLayerClusters, tariff, costBuildKP)
+                + analizer.getEconomCriterionByParameters(secondLayerClusters, tariff, costBuildKNRC);
+        textEconomCommonCriterion.setText(econommicFormat(commonEconomCriterion));
+    }
+
+    private void showNextKNRC(int knrcId, String colorMain, String colorPareto){
+        List<String> variableKNRCNameList = new ArrayList<>();
         MapPoint pointKNRC = mapView.getMapPoint(knrcId);
-        pointKNRC.getStyle().setColorContour("#1ca027");
+        pointKNRC.getStyle().setColorContour(colorMain);
         pointKNRC.updateOnMap();
+        variableKNRCNameList.add(projectStations.get(pointKNRC.getId()).getName());
         List<Integer> paretoSet = mapKNRCToPareto.get(knrcId);
         if(paretoSet != null) {
             for (Integer kpId : paretoSet) {
                 MapPoint pointParetoKP = mapView.getMapPoint(kpId);
-                pointParetoKP.getStyle().setColorContour("#55b2e8");
+                pointParetoKP.getStyle().setColorContour(colorPareto);
                 pointParetoKP.updateOnMap();
+                variableKNRCNameList.add(projectStations.get(pointParetoKP.getId()).getName());
             }
         }
-        knrcIdx++;
+        listViewSelectingKNRC.setItems(FXCollections.observableArrayList(variableKNRCNameList));
     }
 
 
     @FXML
     public void setMCOParameters() {
         desc = textDesc.getText();
+        costBuildKP = Double.parseDouble(textCostKP.getText());
+        costBuildKNRC = Double.parseDouble(textCostKNRC.getText());
+        tariff = Double.parseDouble(textTariff.getText());
         if (checkBoxoptStructure.isSelected()) {
             countKP = 43;/*Integer.parseInt(textCountKP.getText());*/
             countKNRC = 8;/*Integer.parseInt(textCountKNRC.getText());*/
@@ -200,7 +361,8 @@ public class CreateSolutionDialogController implements Controller {
     public void changeKNRC(){
         vboxMCO.setVisible(true);
         buttonChangeKNRC.setVisible(false);
-        mapView.setCentreAndZoomForMap(secondLayerClusters.get(0).getCentre().getId(), 8);
+        buttonRecalculateClustering.setVisible(false);
+        nextKNRC();
     }
 
     public void getParetoForNKRC(){
@@ -256,7 +418,17 @@ public class CreateSolutionDialogController implements Controller {
             elements.add(element);
         }
         clustering.setElements(elements);
-        return (List<ProjectedCluster>) clustering.clustering();
+        double criterion = Double.MAX_VALUE;
+        List<ProjectedCluster> clusters = null;
+        for(int i = 0; i < 20; i++) {
+           List<ProjectedCluster> atemptClusters = (List<ProjectedCluster>) clustering.clustering();
+           double atemptCriterion = analizer.getSumWeightDistanceFotClustering(atemptClusters);
+           if (atemptCriterion < criterion){
+               clusters = atemptClusters;
+               criterion = atemptCriterion;
+           }
+        }
+        return clusters;
     }
 
     public List<ProjectedCluster> clusteringSecondLayer() {

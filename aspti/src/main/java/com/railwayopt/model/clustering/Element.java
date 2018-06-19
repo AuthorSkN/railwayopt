@@ -5,7 +5,7 @@ import com.railwayopt.model.location.Point;
 public class Element extends Point {
 
     protected int id;
-    protected double weight;
+    protected double weight = 1;
 
     /**
      * Конструктор
