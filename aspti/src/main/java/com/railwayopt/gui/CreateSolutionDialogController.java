@@ -8,6 +8,7 @@ import com.railwayopt.mapview.googlemap.GoogleMapAPI;
 import com.railwayopt.mapview.graphic.MapPoint;
 import com.railwayopt.mapview.graphic.MapPointStyle;
 import com.railwayopt.mapview.graphic.MapPolyline;
+import com.railwayopt.model.Solution;
 import com.railwayopt.model.clustering.Cluster;
 import com.railwayopt.model.clustering.ClusteringAnalizer;
 import com.railwayopt.model.clustering.Element;
@@ -16,17 +17,12 @@ import com.railwayopt.model.clustering.kmeanspro.KProInitializer;
 import com.railwayopt.model.clustering.kmeanspro.ProjectedCluster;
 import com.railwayopt.model.clustering.kmeanspro.ProjectionPoint;
 import com.railwayopt.model.location.Point;
-import javafx.beans.Observable;
-import javafx.beans.value.ChangeListener;
 import javafx.beans.value.ObservableValue;
 import javafx.collections.FXCollections;
-import javafx.collections.ObservableArray;
-import javafx.collections.ObservableList;
 import javafx.fxml.FXML;
 import javafx.scene.control.*;
 import javafx.scene.layout.VBox;
 
-import java.math.BigInteger;
 import java.util.*;
 
 public class CreateSolutionDialogController implements Controller {
@@ -73,6 +69,8 @@ public class CreateSolutionDialogController implements Controller {
     private static HashMap<Integer, List<Integer>> mapKNRCToPareto = new HashMap<>();
     private int knrcIdx = 0;
     private ClusteringAnalizer analizer = new ClusteringAnalizer();
+
+    private Integer scalarParetoIdx;
 
 
     private String econommicFormat(double criterion){
@@ -217,9 +215,29 @@ public class CreateSolutionDialogController implements Controller {
         if(knrcIdx >= secondLayerClusters.size()) {
             knrcIdx = 0;
         }
+
+        if (mapKNRCToPareto.get(knrcId).size() == 2){
+            Random random = new Random();
+            int percent = random.nextInt(100);
+            if (percent < 50){
+                scalarParetoIdx = 0;
+            }else{
+                scalarParetoIdx = 1;
+            }
+        }else{
+            scalarParetoIdx = 0;
+        }
+
         knrcId = secondLayerClusters.get(knrcIdx).getCentre().getId();
         mapView.setCentreAndZoomForMap(knrcId, 8);
         showNextKNRC(knrcId, "#1ca027", "#55b2e8");
+    }
+
+    @FXML
+    public void scalarization(){
+        listViewSelectingKNRC.getSelectionModel().select(scalarParetoIdx+1);
+       /* String name = listViewSelectingKNRC.getItems().get(scalarParetoIdx + 1);
+        selectNewKNRC(null, name);*/
     }
 
     private void selectNewKNRC(ObservableValue<? extends String> observable, String knrcName){
@@ -452,6 +470,19 @@ public class CreateSolutionDialogController implements Controller {
         }
         clustering.setElements(elements);
         return (List<ProjectedCluster>) clustering.clustering();
+    }
+
+    public static Solution getSolution(){
+        Solution solution = new Solution(firstLayerClusters, secondLayerClusters);
+        solution.setCostBuildKP(costBuildKP);
+        solution.setCostBuildKNRC(costBuildKNRC);
+        solution.setTariff(tariff);
+        return solution;
+    }
+
+    @FXML
+    public void okClustering(){
+        SceneManager.solutionDialogClose();
     }
 
 }

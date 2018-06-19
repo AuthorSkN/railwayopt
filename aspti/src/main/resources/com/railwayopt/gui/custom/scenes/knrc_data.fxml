@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.scene.control.Label?>
+<?import javafx.scene.control.ListView?>
+<?import javafx.scene.control.TitledPane?>
+<?import javafx.scene.layout.AnchorPane?>
+
+<fx:root prefWidth="600.0" type="TitledPane" xmlns="http://javafx.com/javafx/8.0.121" xmlns:fx="http://javafx.com/fxml/1">
+   <content>
+      <AnchorPane prefHeight="200.0" prefWidth="200.0">
+         <children>
+            <Label fx:id="textFullWeight" text="Суммарный объем КНРЦ:" AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="5.0" />
+            <Label fx:id="textTraffic" text="Объем перевозок: " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="30.0" />
+            <Label fx:id="textAvgDistance" text="Среднее расстояние от КП: " AnchorPane.leftAnchor="10.0" AnchorPane.topAnchor="55.0" />
+            <ListView fx:id="listKP" prefHeight="230.0" prefWidth="200.0" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="10.0" AnchorPane.rightAnchor="10.0" AnchorPane.topAnchor="80.0" />
+         </children></AnchorPane>
+   </content>
+</fx:root>

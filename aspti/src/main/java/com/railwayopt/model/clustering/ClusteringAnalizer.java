@@ -53,4 +53,20 @@ public class ClusteringAnalizer {
         return (costTransaction*tariff) + (countNewCentre*costBuild);
     }
 
+    public double getAvgDistanceToCentre(Cluster cluster){
+        double avg = 0.0;
+        for(Element element: cluster){
+            avg += element.distanceTo(cluster.getCentre());
+        }
+        return avg/cluster.getSize();
+    }
+
+    public double getAvgDistanceForAllClusters(Collection<? extends Cluster> clusters){
+        double avg = 0.0;
+        for(Cluster cluster: clusters){
+            avg += getAvgDistanceToCentre(cluster);
+        }
+        return  avg/clusters.size();
+    }
+
 }

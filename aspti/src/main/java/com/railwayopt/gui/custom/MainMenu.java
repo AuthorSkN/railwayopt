@@ -30,4 +30,8 @@ public class MainMenu extends AnchorPane {
     public void toProjects(){
         SceneManager.installProjectsScene();
     }
+
+    public void showAboutProgram(){
+        SceneManager.showAboutProgram();
+    }
 }

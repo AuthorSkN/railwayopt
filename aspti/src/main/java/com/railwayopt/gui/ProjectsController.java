@@ -78,7 +78,7 @@ public class ProjectsController implements Controller{
     public void addProject(){
         SceneManager.showAddProjectDialog();
         Project newProject = AddProjectDialogController.getNewProject();
-        if(newProject != null){
+        if(newProject != null) {
             newProject.setDate(DateManager.getNowDate());
             DB.addProject(newProject);
             initializeScene();

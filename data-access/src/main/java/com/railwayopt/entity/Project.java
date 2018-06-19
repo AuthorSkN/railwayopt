@@ -13,7 +13,6 @@ public class Project {
     private String author;
     private Set<Station> stations = new HashSet<>();
     private Set<Factory> factories = new HashSet<>();
-    private Set<Solution> solutions = new HashSet<>();
 
     public Project() {}
 
@@ -57,14 +56,6 @@ public class Project {
 
     public void setFactories(Set<Factory> factories) {
         this.factories = factories;
-    }
-
-    public Set<Solution> getSolutions() {
-        return solutions;
-    }
-
-    public void setSolutions(Set<Solution> solutions) {
-        this.solutions = solutions;
     }
 
     public String getDate() {

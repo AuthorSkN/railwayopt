@@ -322,7 +322,9 @@ public class MapView extends BorderPane {
      * Удаляет все точки с карты
      */
     public void deleteAllPoint(){
-        for(Integer id: points.keySet()){
+        List<Integer> pointsIds = new ArrayList<>();
+        points.keySet().forEach(pointId -> pointsIds.add(pointId));
+        for(Integer id: pointsIds){
             this.deleteMapPoint(id);
         }
         points.clear();
@@ -333,7 +335,9 @@ public class MapView extends BorderPane {
      * Удаляет все линии с карты
      */
     public void deleteAllLines(){
-        for(Integer id: lines.keySet()){
+        List<Integer> lineIds = new ArrayList<>();
+        lines.keySet().forEach(lineId -> lineIds.add(lineId));
+        for(Integer id: lineIds){
             this.deleteMapPolyline(id);
         }
         lines.clear();

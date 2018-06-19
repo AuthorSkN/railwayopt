@@ -6,6 +6,7 @@ import com.railwayopt.entity.Factory;
 import com.railwayopt.entity.Project;
 import com.railwayopt.entity.Station;
 import com.railwayopt.exceptions.SystemException;
+import com.railwayopt.model.XlsSaver;
 import com.sun.glass.ui.Size;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -115,6 +116,16 @@ public class SceneManager {
         controller.setProject(project);
     }
 
+    public static File openSaveReportDialog(){
+        FileChooser fileChooser = new FileChooser();//Класс работы с диалогом выборки и сохранения
+        fileChooser.setTitle("Выберете где создать отчет");//Заголовок диалога
+        FileChooser.ExtensionFilter extFilter =
+                new FileChooser.ExtensionFilter("Excel files (*.xls)", "*.xls");//Расширение
+        fileChooser.getExtensionFilters().add(extFilter);
+        File file = fileChooser.showSaveDialog(stage);//Указываем текущую сцену CodeNote.mainStage
+        return file;
+    }
+
     public static CreateSolutionDialogController showCreateSolutionDialog(Collection<Factory> factories, Collection<Station> stations){
         CreateSolutionDialogController controller;
         try {
@@ -146,6 +157,10 @@ public class SceneManager {
             exc.printStackTrace();
             throw new SystemException();
         }
+    }
+
+    public static void solutionDialogClose(){
+        createSolutionDialog.close();
     }
 
 
@@ -194,6 +209,14 @@ public class SceneManager {
         errorDialog.setTitle("Ошибка");
         errorDialog.setHeaderText(headMessage);
         errorDialog.setContentText(description);
+        errorDialog.showAndWait();
+    }
+
+    public static void showAboutProgram(){
+        Alert errorDialog = new Alert(Alert.AlertType.INFORMATION);
+        errorDialog.setTitle("О программе");
+        errorDialog.setHeaderText("Программный продукт Railway-optimization v.1.0.0.0");
+        errorDialog.setContentText("Разработан в рамках выпускной квалификационной работы бакалавра студентом Складневым Н.С.");
         errorDialog.showAndWait();
     }
 

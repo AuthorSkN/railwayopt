@@ -134,6 +134,15 @@ public class XlsLoader {
                 case "x":xColumnNum = i; break;
                 case "y":yColumnNum = i; break;
                 case "": break;
+               /* case "k1":
+                case "k2":
+                case "k3":
+                case "k4":
+                case "k5":
+                case "k6":
+                case "k7":
+                case "k8":
+                case "k9":break;*/
                 default:
                     throw new IllegalArgumentException("Unknown token: \"" + token + "\" from string \"" + cellString + "\" from cell " + currentCell.toString());
             }

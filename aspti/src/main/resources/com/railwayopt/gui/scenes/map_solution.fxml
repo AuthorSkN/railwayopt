@@ -30,7 +30,7 @@
                            <VBox.margin>
                               <Insets bottom="10.0" left="10.0" right="10.0" top="10.0" />
                            </VBox.margin></ListView>
-                        <Button fx:id="buttonScalarization" mnemonicParsing="false" text="Найти лучшую">
+                        <Button fx:id="buttonScalarization" mnemonicParsing="false" onAction="#scalarization" text="Найти лучший КНРЦ">
                            <VBox.margin>
                               <Insets bottom="5.0" left="10.0" right="10.0" top="5.0" />
                            </VBox.margin>
@@ -45,7 +45,7 @@
                   <Label text="Общие затраты:" AnchorPane.bottomAnchor="70.0" AnchorPane.leftAnchor="10.0" />
                   <Label fx:id="textEconomCommonCriterion" text="71 734 123 903 р." AnchorPane.bottomAnchor="50.0" AnchorPane.leftAnchor="10.0" />
                   <Button fx:id="buttonRecalculateClustering" mnemonicParsing="false" onAction="#recalculateClustering" prefHeight="45.0" text="Повторить кластеризацию" textAlignment="CENTER" wrapText="true" AnchorPane.bottomAnchor="140.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
-                  <Button mnemonicParsing="false" text="Принять" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
+                  <Button mnemonicParsing="false" onAction="#okClustering" text="Принять" AnchorPane.bottomAnchor="10.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
                   <Button fx:id="buttonChangeKNRC" mnemonicParsing="false" onAction="#changeKNRC" text="Изменить КНРЦ" AnchorPane.bottomAnchor="100.0" AnchorPane.leftAnchor="40.0" AnchorPane.rightAnchor="40.0" />
                </children>
             </AnchorPane>

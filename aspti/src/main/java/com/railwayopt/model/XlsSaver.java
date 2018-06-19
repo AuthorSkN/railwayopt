@@ -1,6 +1,28 @@
-package com.railwayopt.fao;
+package com.railwayopt.model;
 
 
+import com.railwayopt.entity.Factory;
+import com.railwayopt.entity.Infrastructure;
+import com.railwayopt.entity.Project;
+import com.railwayopt.entity.Station;
+import com.railwayopt.model.clustering.Cluster;
+import com.railwayopt.model.clustering.ClusteringAnalizer;
+import com.railwayopt.model.clustering.Element;
+import com.railwayopt.model.clustering.kmeanspro.ProjectedCluster;
+import com.sun.media.sound.InvalidFormatException;
+import org.apache.poi.hssf.usermodel.HSSFWorkbook;
+import org.apache.poi.ss.usermodel.Cell;
+import org.apache.poi.ss.usermodel.Row;
+import org.apache.poi.ss.usermodel.Sheet;
+import org.apache.poi.ss.usermodel.Workbook;
+
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.IOException;
+import java.util.Collection;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 /**
  *
@@ -13,9 +35,9 @@ public class XlsSaver{
         SECOND_LEVEL
     }
 
-     XlsSaver(){}
+    public XlsSaver(){}
 
-   /* //запись шапок:
+    /*//запись шапок:
     private static void writeHeaderMapObj(Sheet sheet){
         Row rowHeader = sheet.createRow(0);
         //запись:
@@ -120,7 +142,7 @@ public class XlsSaver{
         }
     }
     public static  void saveStations(List<Station> stats, File fileToSave) throws IOException, InvalidFormatException {
-        Workbook wb = new XSSFWorkbook(fileToSave);
+        Workbook wb = new HSSFWorkbook(fileToSave);
         Sheet datasheet = wb.createSheet("Станции");
         writeHeaderProd(datasheet);
         int i=1;
@@ -140,28 +162,23 @@ public class XlsSaver{
             fos.flush();
             fos.close();
         }
-    }
+    }*/
+
     //формирование отчёта:
-    private static  void fillSheet(Project proj, ReportType reportType, Sheet destinationSheet) {
-        List<Cluster> clusters = proj.getClusters();
+    private static  void fillSheet(Map<Integer, Station> stations,
+                                   Map<Integer, ProjectedCluster> clusterLayer, ReportType reportType, Sheet destinationSheet) {
         //общая сводка,расчёт:
-        int clustersCount = clusters.size();
+        int clustersCount = clusterLayer.size();
         int moCount=0;
         double sumweight = 0;
         double totalDist = 0;
         double complexity = 0;
-        for(Cluster cluster : clusters){
-            for(Infrastructure mo : cluster){
-                moCount++;
-                double distance = Infrastructure.distance(mo,cluster);
-                double weight = mo.getWeight();
-                sumweight+=weight;
-                totalDist+=distance;
-                complexity+=distance*weight;
-            }
+        ClusteringAnalizer analizer = new ClusteringAnalizer();
+        for(ProjectedCluster cluster: clusterLayer.values()){
+            sumweight += cluster.getClusterWeight();
         }
         double averToCentrs = totalDist/moCount;
-        double averBetweenCentrs = Util.averDistanceBetweenClusters(clusters);
+       /* double averBetweenCentrs = Util.averDistanceBetweenClusters(clusters);*/
         //общая сводка,формирование документа:
         int iterCell = 0;
         int iterRow = 0;
@@ -178,13 +195,13 @@ public class XlsSaver{
         cell.setCellValue("Общий объём перерабатываемой продукции(тыс.т):");
         cell = row.createCell(iterCell++);
         cell.setCellValue(sumweight);
-        //сред. расстояние между кластерами:
+        /*//сред. расстояние между кластерами:
         row = destinationSheet.createRow(iterRow++);
         iterCell = 0;
         cell = row.createCell(iterCell++);
         cell.setCellValue("Среднее расстояние между кластерами(км):");
         cell = row.createCell(iterCell++);
-        cell.setCellValue(averBetweenCentrs);
+        cell.setCellValue(averBetweenCentrs);*/
         //среднее расстояние от предприятий до центров:
         row = destinationSheet.createRow(iterRow++);
         iterCell = 0;
@@ -194,7 +211,7 @@ public class XlsSaver{
                 "Среднее расстояние от станций до центров кластеров(км):";
         cell.setCellValue(averToCenterTotal);
         cell = row.createCell(iterCell++);
-        cell.setCellValue(averToCentrs);
+        cell.setCellValue(analizer.getAvgDistanceForAllClusters(clusterLayer.values()));
         //суммарное расстояние:
         row = destinationSheet.createRow(iterRow++);
         iterCell = 0;
@@ -204,14 +221,14 @@ public class XlsSaver{
                 "Суммарное расстояние от станций до центров кластеров:";
         cell.setCellValue(sumToCenterTotal);
         cell = row.createCell(iterCell++);
-        cell.setCellValue(totalDist);
+        cell.setCellValue(analizer.getSumDistanceForClustering(clusterLayer.values()));
         //сложность перевозки:
         row = destinationSheet.createRow(iterRow++);
         iterCell = 0;
         cell = row.createCell(iterCell++);
         cell.setCellValue("Суммарный объём перевозок(тыс.т * км):");
         cell = row.createCell(iterCell++);
-        cell.setCellValue(complexity);
+        cell.setCellValue(analizer.getSumWeightDistanceFotClustering(clusterLayer.values()));
         //таблица,формирование документа,шапки:
         row = destinationSheet.createRow(iterRow++);
         iterCell = 0;
@@ -254,19 +271,22 @@ public class XlsSaver{
         //таблица,формирование документа,тело:
         row = destinationSheet.createRow(iterRow++);
         iterCell = 0;
-        for (Cluster cluster : clusters) {
-            //info about cluster,calculating:
-            String ids = cluster.getIds();
-            double sumOfWeights = cluster.getSumOfWeights();
+        for (ProjectedCluster cluster : clusterLayer.values()) {
+            //info about cluster,calculating
+            String ids = "";
+            for(Element element: cluster){
+                ids = ids + element.getId()+"; ";
+            }
+            double sumOfWeights = cluster.getClusterWeight();
             double percent = (sumOfWeights/sumweight)*100;
-            double averToCenter = cluster.getAverDistanceToCenter();
-            double sumToCenter = cluster.getSumDistanceToCenter();
+            double averToCenter = analizer.getAvgDistanceToCentre(cluster);
+            double sumToCenter = analizer.getSumDistanceToCentre(cluster);
             //ID:
             cell = row.createCell(iterCell++);
-            cell.setCellValue(cluster.getStation().getId());
+            cell.setCellValue(cluster.getCentre().getId());
             //name:
             cell = row.createCell(iterCell++);
-            cell.setCellValue(cluster.getStation().getName());
+            cell.setCellValue(stations.get(cluster.getCentre().getId()).getName());
             //кол-во предприятий:
             cell = row.createCell(iterCell++);
             cell.setCellValue(cluster.getElements().size());
@@ -290,12 +310,17 @@ public class XlsSaver{
             iterCell = 0;
         }
     }
-    public static void saveReport(DoubleClustering doubleClustering, File fileToSave) throws IOException {
-        Workbook wb = new XSSFWorkbook();
+    public static void saveReport(Project project, Map<Integer, ProjectedCluster> firstLevel,
+                                  Map<Integer, ProjectedCluster> secondLevel,  File fileToSave) throws IOException {
+        Workbook wb = new HSSFWorkbook();
+        Map<Integer, Station> stations = new HashMap<>();
+        for(Station station: project.getStations()){
+            stations.put(station.getId(), station);
+        }
         Sheet sheet1 = wb.createSheet("1st level");
         Sheet sheet2 = wb.createSheet("2nd level");
-        fillSheet(doubleClustering.getFirstLevel(),ReportType.FIRST_LEVEL,sheet1);
-        fillSheet(doubleClustering.getSecondLevel(),ReportType.SECOND_LEVEL,sheet2);
+        fillSheet(stations, firstLevel,ReportType.FIRST_LEVEL,sheet1);
+        fillSheet(stations, secondLevel,ReportType.SECOND_LEVEL,sheet2);
         FileOutputStream fos=null;
         try{
             fos = new FileOutputStream(fileToSave);
@@ -308,5 +333,5 @@ public class XlsSaver{
                 fos.close();
             }
         }
-    }*/
+    }
 }
