@@ -1,4 +1,4 @@
-package com.railwayopt.model;
+package com.railwayopt;
 
 import com.railwayopt.model.clustering.Cluster;
 import com.railwayopt.model.clustering.Element;

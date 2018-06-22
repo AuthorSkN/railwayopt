@@ -1,6 +1,6 @@
 package com.railwayopt.gui.custom;
 
-import com.railwayopt.model.Solution;
+import com.railwayopt.Solution;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;

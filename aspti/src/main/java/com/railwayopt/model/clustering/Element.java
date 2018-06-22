@@ -42,6 +42,15 @@ public class Element extends Point {
         this.weight = weight;
     }
 
+    /**
+     * Конструктор
+     * @param id идентификатор
+     * @param point координаты объекта
+     */
+    public Element(int id, Point point){
+        this(id, point.getX(), point.getY());
+    }
+
     public int getId() {
         return id;
     }

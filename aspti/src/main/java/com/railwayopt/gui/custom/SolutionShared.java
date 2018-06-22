@@ -2,23 +2,18 @@ package com.railwayopt.gui.custom;
 
 import com.railwayopt.entity.Project;
 import com.railwayopt.gui.SceneManager;
-import com.railwayopt.gui.custom.shareddata.SharedFactory;
-import com.railwayopt.gui.custom.shareddata.SharedStation;
-import com.railwayopt.model.Solution;
-import com.railwayopt.model.XlsSaver;
-import com.railwayopt.model.clustering.ClusteringAnalizer;
-import javafx.collections.FXCollections;
+import com.railwayopt.Solution;
+import com.railwayopt.XlsSaver;
+import com.railwayopt.model.economic.SolutionAnalizer;
 import javafx.fxml.FXML;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextArea;
 import javafx.scene.layout.VBox;
-import javafx.stage.FileChooser;
 
 import java.io.File;
 import java.io.IOException;
 import java.util.Collection;
-import java.util.List;
 import java.util.Locale;
 
 public class SolutionShared extends VBox {
@@ -56,7 +51,7 @@ public class SolutionShared extends VBox {
             textCostKP.setText("Цена постройки одного КП: "+String.format(Locale.FRENCH, "%12.2f", solution.getCostBuildKP())+"р. ");
             textCostKNRC.setText("Цена постройки одного КНРЦ : "+String.format(Locale.FRENCH, "%13.2f", solution.getCostBuildKNRC())+"р. ");
             textTariff.setText("Тариф перевозки: "+String.format(Locale.FRENCH, "%5.2f", solution.getTariff())+" р.");
-            ClusteringAnalizer analizer = new ClusteringAnalizer();
+            SolutionAnalizer analizer = new SolutionAnalizer();
             double commonEconomCriterion = analizer.getEconomCriterionByParameters(solution.getFirstLayerList(), solution.getTariff(), solution.getCostBuildKP())
                     + analizer.getEconomCriterionByParameters(solution.getSecondLayerList(), solution.getTariff(), solution.getCostBuildKNRC());
             textfullCriterion.setText("Общие затраты на структуру: "+Double.toString(commonEconomCriterion)+" р.");

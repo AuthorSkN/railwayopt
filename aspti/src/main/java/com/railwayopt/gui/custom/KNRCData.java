@@ -2,8 +2,8 @@ package com.railwayopt.gui.custom;
 
 import com.railwayopt.entity.Project;
 import com.railwayopt.entity.Station;
-import com.railwayopt.model.Solution;
-import com.railwayopt.model.clustering.ClusteringAnalizer;
+import com.railwayopt.Solution;
+import com.railwayopt.model.economic.SolutionAnalizer;
 import com.railwayopt.model.clustering.Element;
 import com.railwayopt.model.clustering.kmeanspro.ProjectedCluster;
 import javafx.collections.FXCollections;
@@ -12,8 +12,6 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.control.Label;
 import javafx.scene.control.ListView;
 import javafx.scene.control.TitledPane;
-import javafx.scene.control.cell.PropertyValueFactory;
-import javafx.scene.layout.TilePane;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -66,7 +64,7 @@ public class KNRCData extends TitledPane {
         try {
             fxmlLoader.load();
             ProjectedCluster secondCluster =  solution.getClusterByKNRCId(knrcId);
-            ClusteringAnalizer analizer = new ClusteringAnalizer();
+            SolutionAnalizer analizer = new SolutionAnalizer();
             this.setText(projectStation.get(secondCluster.getCentre().getId()).getName());
             double fullWeight = secondCluster.getClusterWeight();
             double traffic = analizer.getSumWeightDistanceToCentre(secondCluster);

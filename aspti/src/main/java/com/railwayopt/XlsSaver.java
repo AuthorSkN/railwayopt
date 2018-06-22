@@ -1,15 +1,11 @@
-package com.railwayopt.model;
+package com.railwayopt;
 
 
-import com.railwayopt.entity.Factory;
-import com.railwayopt.entity.Infrastructure;
 import com.railwayopt.entity.Project;
 import com.railwayopt.entity.Station;
-import com.railwayopt.model.clustering.Cluster;
-import com.railwayopt.model.clustering.ClusteringAnalizer;
+import com.railwayopt.model.economic.SolutionAnalizer;
 import com.railwayopt.model.clustering.Element;
 import com.railwayopt.model.clustering.kmeanspro.ProjectedCluster;
-import com.sun.media.sound.InvalidFormatException;
 import org.apache.poi.hssf.usermodel.HSSFWorkbook;
 import org.apache.poi.ss.usermodel.Cell;
 import org.apache.poi.ss.usermodel.Row;
@@ -19,9 +15,7 @@ import org.apache.poi.ss.usermodel.Workbook;
 import java.io.File;
 import java.io.FileOutputStream;
 import java.io.IOException;
-import java.util.Collection;
 import java.util.HashMap;
-import java.util.List;
 import java.util.Map;
 
 /**
@@ -173,7 +167,7 @@ public class XlsSaver{
         double sumweight = 0;
         double totalDist = 0;
         double complexity = 0;
-        ClusteringAnalizer analizer = new ClusteringAnalizer();
+        SolutionAnalizer analizer = new SolutionAnalizer();
         for(ProjectedCluster cluster: clusterLayer.values()){
             sumweight += cluster.getClusterWeight();
         }

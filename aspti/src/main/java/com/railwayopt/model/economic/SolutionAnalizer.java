@@ -1,11 +1,13 @@
-package com.railwayopt.model.clustering;
+package com.railwayopt.model.economic;
 
+import com.railwayopt.model.clustering.*;
 import com.railwayopt.model.clustering.kmeanspro.ProjectionPoint;
 import com.railwayopt.model.location.Point;
 
 import java.util.Collection;
 
-public class ClusteringAnalizer {
+public class SolutionAnalizer
+{
 
     public double getSumDistanceToCentre(Cluster cluster){
         double sumDistance = 0;

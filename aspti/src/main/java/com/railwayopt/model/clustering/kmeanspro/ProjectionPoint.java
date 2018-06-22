@@ -2,6 +2,7 @@ package com.railwayopt.model.clustering.kmeanspro;
 
 
 import com.railwayopt.model.clustering.Element;
+import com.railwayopt.model.location.Point;
 
 public class ProjectionPoint extends Element{
 
@@ -27,6 +28,7 @@ public class ProjectionPoint extends Element{
         super(id, x, y);
     }
 
+
     /**
      * Конструктор
      *
@@ -42,6 +44,12 @@ public class ProjectionPoint extends Element{
     public ProjectionPoint(int id, boolean isStaticCentre){
         super(id);
         this.isStaticCentre = isStaticCentre;
+    }
+
+    public ProjectionPoint(int id, Point point, boolean isStaticCentre){
+        this(id, isStaticCentre);
+        this.x = point.getX();
+        this.y = getY();
     }
 
     public boolean isStaticCentre() {

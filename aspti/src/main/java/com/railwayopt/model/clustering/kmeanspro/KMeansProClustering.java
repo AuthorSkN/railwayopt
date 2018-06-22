@@ -79,7 +79,7 @@ public class KMeansProClustering implements Clustering {
             //Цикл оптимизации
 /*            int counterIteration = 1;
             double criterion = 0.0;
-            ClusteringAnalizer analizer = new ClusteringAnalizer();
+            SolutionAnalizer analizer = new SolutionAnalizer();
             double firstFall = 0.0;*/
 
             List<ProjectedCluster> prevClusters = new LinkedList<>();

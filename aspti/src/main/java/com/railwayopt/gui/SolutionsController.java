@@ -1,12 +1,11 @@
 package com.railwayopt.gui;
 
 import com.railwayopt.entity.Project;
-import com.railwayopt.gui.custom.ProjectShared;
 import com.railwayopt.gui.custom.SolutionShared;
 import com.railwayopt.gui.custom.SolutionString;
-import com.railwayopt.model.DateManager;
-import com.railwayopt.model.Solution;
-import com.railwayopt.model.SolutionStorage;
+import com.railwayopt.util.DateManager;
+import com.railwayopt.Solution;
+import com.railwayopt.SolutionStorage;
 import javafx.event.EventHandler;
 import javafx.fxml.FXML;
 import javafx.scene.control.Label;

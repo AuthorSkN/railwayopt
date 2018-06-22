@@ -1,4 +1,4 @@
-package com.railwayopt.model;
+package com.railwayopt.util;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;

@@ -1,4 +1,6 @@
-package com.railwayopt.model;
+package com.railwayopt;
+
+import com.railwayopt.Solution;
 
 import java.util.ArrayList;
 import java.util.HashMap;

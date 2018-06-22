@@ -8,9 +8,9 @@ import com.railwayopt.mapview.googlemap.GoogleMapAPI;
 import com.railwayopt.mapview.graphic.MapPoint;
 import com.railwayopt.mapview.graphic.MapPointStyle;
 import com.railwayopt.mapview.graphic.MapPolyline;
-import com.railwayopt.model.Solution;
+import com.railwayopt.Solution;
 import com.railwayopt.model.clustering.Cluster;
-import com.railwayopt.model.clustering.ClusteringAnalizer;
+import com.railwayopt.model.economic.SolutionAnalizer;
 import com.railwayopt.model.clustering.Element;
 import com.railwayopt.model.clustering.kmeanspro.KMeansProClustering;
 import com.railwayopt.model.clustering.kmeanspro.KProInitializer;
@@ -68,7 +68,7 @@ public class CreateSolutionDialogController implements Controller {
     private static List<ProjectedCluster> secondLayerClusters;
     private static HashMap<Integer, List<Integer>> mapKNRCToPareto = new HashMap<>();
     private int knrcIdx = 0;
-    private ClusteringAnalizer analizer = new ClusteringAnalizer();
+    private SolutionAnalizer analizer = new SolutionAnalizer();
 
     private Integer scalarParetoIdx;
 
