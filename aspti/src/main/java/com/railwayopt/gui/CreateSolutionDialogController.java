@@ -384,6 +384,8 @@ public class CreateSolutionDialogController implements Controller {
     }
 
     public void getParetoForNKRC(){
+        //TODO написать нормальный парето-селектор
+        //TODO
         for(ProjectedCluster cluster:secondLayerClusters){
             List<Element> elements = cluster.getElements();
             Collections.sort(elements, new Comparator() {
@@ -403,6 +405,7 @@ public class CreateSolutionDialogController implements Controller {
                 mapKNRCToPareto.put(cluster.getCentre().getId(), list.subList(0, 2));
             }
         }
+        //TODO
     }
 
     public void startClustering() {
