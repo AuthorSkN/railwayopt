@@ -29,7 +29,7 @@
             </Label>
             <HBox AnchorPane.rightAnchor="0.0" AnchorPane.topAnchor="0.0">
                <children>
-                  <Button mnemonicParsing="false" text="Удалить">
+                  <Button fx:id="buttonDeleteProject" mnemonicParsing="false" onAction="#deleteProject" text="Удалить">
                      <HBox.margin>
                         <Insets bottom="10.0" left="10.0" right="5.0" top="10.0" />
                      </HBox.margin></Button>

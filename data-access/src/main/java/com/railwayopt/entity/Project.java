@@ -1,18 +1,29 @@
 package com.railwayopt.entity;
 
+import javax.persistence.*;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+@Entity
+@Table(name="project")
 public class Project {
 
+    @Id
+    @Column(name="id")
     private int id;
+    @Column(name="name")
     private String name;
+    @Column(name="descr")
     private String description;
+    @Column(name="create_date")
     private String date;
+    @Column(name="user_name")
     private String author;
-    private Set<Station> stations = new HashSet<>();
-    private Set<Factory> factories = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Station> station = new HashSet<>();
+    @ManyToMany(fetch = FetchType.EAGER)
+    private Set<Factory> factory = new HashSet<>();
 
     public Project() {}
 
@@ -43,19 +54,19 @@ public class Project {
     }
 
     public Set<Station> getStations() {
-        return stations;
+        return station;
     }
 
     public void setStations(Set<Station> stations) {
-        this.stations = stations;
+        this.station = stations;
     }
 
     public Set<Factory> getFactories() {
-        return factories;
+        return factory;
     }
 
     public void setFactories(Set<Factory> factories) {
-        this.factories = factories;
+        this.factory = factories;
     }
 
     public String getDate() {

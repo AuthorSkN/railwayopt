@@ -75,7 +75,7 @@ public class AddProjectDialogController implements Controller {
     public static Project getNewProject(){
         Project newProject = null;
         if(ok){
-            newProject = new Project(randomId.nextInt(), name, desc);
+            newProject = new Project(0, name, desc);
             newProject.setAuthor("Складнев");
             newProject.setFactories(new HashSet<>(factories));
             newProject.setStations(new HashSet<>(stations));

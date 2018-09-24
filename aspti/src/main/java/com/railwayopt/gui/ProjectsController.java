@@ -1,6 +1,6 @@
 package com.railwayopt.gui;
 
-import com.railwayopt.DB;
+import com.railwayopt.dbao.DAORailwayImpl;
 import com.railwayopt.entity.Project;
 import com.railwayopt.gui.custom.ProjectShared;
 import com.railwayopt.gui.custom.ProjectString;
@@ -32,12 +32,14 @@ public class ProjectsController implements Controller{
     private Button buttonAddProject;
 
     private Map<Integer, Project> projects;
+    private DAORailwayImpl dataRailwayAccess = new DAORailwayImpl();
 
 
 
     @Override
     public void initializeScene() {
-        List<Project> projectsFromDB = DB.getAllProjects();
+        List<Project> projectsFromDB = dataRailwayAccess.getAllProject();
+        selectedProjectString = null;
         projects = new HashMap<>();
         vboxProjectsList.getChildren().remove(1, vboxProjectsList.getChildren().size());
         for(Project project: projectsFromDB){
@@ -66,7 +68,7 @@ public class ProjectsController implements Controller{
     private void resetProjectForShared() {
         projectSharedPanel.getChildren().remove(0);
         Project project = projects.get(selectedProjectString.getProjectId());
-        ProjectShared shared = new ProjectShared(project);
+        ProjectShared shared = new ProjectShared(project, dataRailwayAccess);
         projectSharedPanel.getChildren().add(shared);
         AnchorPane.setRightAnchor(shared, 0.0);
         AnchorPane.setLeftAnchor(shared, 0.0);
@@ -79,7 +81,7 @@ public class ProjectsController implements Controller{
         Project newProject = AddProjectDialogController.getNewProject();
         if(newProject != null) {
             newProject.setDate(DateManager.getNowDate());
-            DB.addProject(newProject);
+            dataRailwayAccess.addProject(newProject);
             initializeScene();
         }
     }

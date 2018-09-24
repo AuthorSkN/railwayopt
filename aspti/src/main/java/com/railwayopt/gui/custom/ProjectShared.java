@@ -1,6 +1,8 @@
 package com.railwayopt.gui.custom;
 
+import com.railwayopt.dbao.DAORailwayImpl;
 import com.railwayopt.entity.*;
+import com.railwayopt.gui.Controller;
 import com.railwayopt.gui.SceneManager;
 import com.railwayopt.gui.custom.shareddata.SharedFactory;
 import com.railwayopt.gui.custom.shareddata.SharedStation;
@@ -49,11 +51,16 @@ public class ProjectShared extends VBox{
     @FXML
     private TableColumn<SharedStation, String> columnIsLogCentre;
 
+    @FXML
+    private Button buttonDeleteProject;
+
+    private DAORailwayImpl dataRailwayAccess;
 
 
-    public ProjectShared(Project project){
+    public ProjectShared(Project project, DAORailwayImpl dataRailwayAccess){
         super();
         this.project = project;
+        this.dataRailwayAccess = dataRailwayAccess;
         FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource(FXML_COMPONENT_NAME));
         fxmlLoader.setRoot(this);
         fxmlLoader.setController(this);
@@ -90,5 +97,11 @@ public class ProjectShared extends VBox{
     @FXML
     public void openSolutions(){
         SceneManager.installSolutionsScene(project);
+    }
+
+    @FXML
+    public void deleteProject() {
+        dataRailwayAccess.deleteProject(this.project);
+        SceneManager.installProjectsScene();
     }
 }

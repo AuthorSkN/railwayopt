@@ -2,6 +2,8 @@ package com.railwayopt.entity;
 
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="factory")
@@ -19,6 +21,9 @@ public class Factory implements Infrastructable{
     private Double fullWeight;
     @Column(name="weight")
     private Double weight;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "factory")
+    private Set<Project> project = new HashSet<>();
 
     public Factory() {
         infrastructure = new Infrastructure(false);

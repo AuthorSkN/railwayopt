@@ -19,8 +19,7 @@
         <mapping class="com.railwayopt.entity.Infrastructure" />
         <mapping class="com.railwayopt.entity.Region" />
         <mapping class="com.railwayopt.entity.Factory"/>
-        <mapping class="com.railwayopt.entity.RailwayPart"/>
-        <mapping class="com.railwayopt.entity.RailwayBranch"/>
+        <mapping class="com.railwayopt.entity.Project"/>
         <mapping class="com.railwayopt.entity.Station"/>
     </session-factory>
 

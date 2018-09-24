@@ -50,21 +50,6 @@ public class DAORailwayImpl extends DAOAbstract{
         session.getTransaction().commit();
     }
 
-    public List<RailwayPart> getAllRailways(){
-        Session session = getSession();
-        session.beginTransaction();
-        List<RailwayPart> railways = session.createQuery("From RailwayPart").list();
-        session.getTransaction().commit();
-        return railways;
-    }
-
-    public List<RailwayBranch> getAllBranches(){
-        Session session = getSession();
-        session.beginTransaction();
-        List<RailwayBranch> branches = session.createQuery("From RailwayBranch").list();
-        session.getTransaction().commit();
-        return branches;
-    }
 
     public void addInfrastructure(Infrastructable object) {
         Session session = getSession();
@@ -110,6 +95,26 @@ public class DAORailwayImpl extends DAOAbstract{
         return region;
     }
 
+    public void addProject(Project project) {
+        Session session = getSession();
+        session.beginTransaction();
+        session.save(project);
+        session.getTransaction().commit();
+    }
 
+    public List<Project> getAllProject() {
+        Session session = getSession();
+        session.beginTransaction();
+        List<Project> projects = session.createQuery("From Project").list();
+        session.getTransaction().commit();
+        return projects;
+    }
+
+    public void deleteProject(Project project) {
+        Session session = getSession();
+        session.beginTransaction();
+        session.delete(project);
+        session.getTransaction().commit();
+    }
 
 }

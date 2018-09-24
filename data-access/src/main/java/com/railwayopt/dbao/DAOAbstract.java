@@ -1,12 +1,8 @@
 package com.railwayopt.dbao;
 
-import com.railwayopt.entity.Infrastructable;
-import com.railwayopt.entity.RailwayPart;
 import org.hibernate.Session;
 import org.hibernate.SessionFactory;
 import org.hibernate.cfg.Configuration;
-
-import java.util.List;
 
 public abstract class DAOAbstract {
 

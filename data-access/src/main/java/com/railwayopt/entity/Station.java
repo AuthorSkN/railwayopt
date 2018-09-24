@@ -1,6 +1,8 @@
 package com.railwayopt.entity;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 @Entity
 @Table(name="station")
@@ -15,12 +17,12 @@ public class Station implements Infrastructable{
     private Integer stationClass;
     @Column(name="is_logistic_centre")
     private Boolean existLogisticCentre;
-    @ManyToOne
-    @JoinColumn(name = "branch_id")
-    private RailwayBranch branch;
     @OneToOne(cascade = CascadeType.ALL)
     @PrimaryKeyJoinColumn
     private Infrastructure infrastructure;
+
+    @ManyToMany(fetch = FetchType.LAZY, mappedBy = "station")
+    private Set<Project> project = new HashSet<>();
 
     public Station(){}
 

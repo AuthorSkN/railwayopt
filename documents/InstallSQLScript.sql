@@ -22,6 +22,8 @@ CREATE TABLE geo_object
     longitude double precision,
     is_station boolean,
     region_id integer,
+    x_coord double precision,
+    y_coord double precision,
     descr character varying(500),
     CONSTRAINT geo_object_pkey PRIMARY KEY (id),
     CONSTRAINT geo_object_region_id_fkey FOREIGN KEY (region_id)
@@ -43,40 +45,37 @@ CREATE TABLE factory
         ON DELETE NO ACTION
 );
 
-CREATE TABLE railway_part
-(
-    railway_id serial NOT NULL,
-    name character varying(100),
-    CONSTRAINT railway_part_pkey PRIMARY KEY (railway_id)
-);
-
-CREATE TABLE railway_branch
-(
-    branch_id serial NOT NULL,
-    railway_id integer,
-    CONSTRAINT railway_branch_pkey PRIMARY KEY (branch_id),
-    CONSTRAINT railway_branch_railway_id_fkey FOREIGN KEY (railway_id)
-        REFERENCES public.railway_part (railway_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION
-);
-
 CREATE TABLE station
 (
     id integer NOT NULL,
     type character varying(50),
     class integer,
-    branch_id integer,
     is_logistic_centre boolean,
     CONSTRAINT station_pkey PRIMARY KEY (id),
-    CONSTRAINT station_branch_id_fkey FOREIGN KEY (branch_id)
-        REFERENCES public.railway_branch (branch_id) MATCH SIMPLE
-        ON UPDATE NO ACTION
-        ON DELETE NO ACTION,
     CONSTRAINT station_id_fkey FOREIGN KEY (id)
         REFERENCES public.geo_object (id) MATCH SIMPLE
         ON UPDATE NO ACTION
         ON DELETE NO ACTION
+);
+
+create table project(
+	id serial primary key,
+	name varchar(100) not null,
+	descr varchar(1000),
+	create_date varchar(10),
+	user_name varchar(100)
+);
+
+create table project_factory(
+	project_id integer not null references project(project_id),
+	factory_id integer not null references factory(id),
+	constraint pf_primary_key primary key (project_id, factory_id)
+);
+
+create table project_station(
+	project_id integer not null references project(project_id),
+	station_id integer not null references station(id),
+	constraint ps_primary_key primary key (project_id, station_id)
 );
 
 Insert into region(name) values('Самарская область'),('Республика татарстан'),('Ульяновская область');
